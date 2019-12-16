@@ -2,19 +2,20 @@
 
 ## Co to quicktichy?
 
-    Quicktichy to skrypt napisany w języku Python, który pozwala na wysyłanie zadań na Tichy (sprawdzarkę algorytmiczną UMCS) za pomocą konsoli. Zwraca on wynik testów po sprawdzeniu.
+Quicktichy to skrypt napisany w języku Python, który pozwala na wysyłanie zadań na Tichy (sprawdzarkę algorytmiczną UMCS) za pomocą konsoli. Zwraca on wynik testów po sprawdzeniu.
+
 ## Wymagania
    * Python 3.7 +
    * Moduły: re, mechanize, time, bs4, sys
 
 ## Konfiguracja
 
-    * W pliku tichy.py w linijce **10** zamieniamy link do kursu na sprawdzarce. W plikach znajduje się link do kursu **AiSD I 2019/2020**
-    
-    * W pliku tichy_dane.txt w pierwszej linijce umieszczamy login, a w drugiej hasło do sprawdzarki.
+* W pliku tichy.py w linijce **10** zamieniamy link do kursu na sprawdzarce. W plikach znajduje się link do kursu **AiSD I 2019/2020**
+
+* W pliku tichy_dane.txt w pierwszej linijce umieszczamy login, a w drugiej hasło do sprawdzarki.
 
 ## Użycie:
     python tichy.py <numer zadania> <rozwiązanie>
 ## Przykład:
 
-    ![przyklad](https://i.imgur.com/ZJZnuPO.png)
+![przyklad](https://i.imgur.com/ZJZnuPO.png)
