@@ -10,9 +10,9 @@ Quicktichy to skrypt napisany w języku Python, który pozwala na wysyłanie zad
 
 ## Konfiguracja
 
-* W pliku tichy.py w linijce **10** zamieniamy link do kursu na sprawdzarce. W plikach znajduje się link do kursu **AiSD I 2019/2020**
+* W pliku tichy.py w linijce **10** zamieniamy link do kursu na sprawdzarce. W plikach znajduje się link do kursu **AiSD I 2019/2020** Również zmieniamy pola login i hasło na swoje dane do sprawdzarki.
 
-* W pliku tichy_dane.txt w pierwszej linijce umieszczamy login, a w drugiej hasło do sprawdzarki.
+
 
 ## Użycie:
     python tichy.py <numer zadania> <rozwiązanie>
