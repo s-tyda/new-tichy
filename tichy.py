@@ -18,8 +18,8 @@ with open(sys.argv[2], 'r') as file:
    data = file.read().replace('\n', '\n  ')
 #print(str(data))
 # przygotuj dane do logowania z pliku
-f = open("tichy_dane.txt")
-dane = f.readlines()
+username = 'login'
+passwd = 'haaslo'
 
 br = mechanize.Browser()
 br.open("https://tichy.umcs.lublin.pl/accounts/login/")
@@ -27,9 +27,9 @@ print(br.title())
 # zaloguj uzytkownika na sprawdzarce
 br.select_form(nr=0)
 control = br.form.find_control("username")
-control.value = dane[0]
+control.value = username
 control = br.form.find_control("password")
-control.value = dane[1]
+control.value = passwd
 response = br.submit()
 # kliknij w odpowiedni kurs
 br.open(kurs)
