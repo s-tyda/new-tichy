@@ -4,8 +4,8 @@
   * [Co to quicktichy?](#co-to-quicktichy?)
   * [Wymagania](#wymagania)
   * [Konfiguracja](#konfiguracja)
-  * [Użycie:](#użycie:)
-  * [Przykład:](#przykład:)
+  * [Użycie:](#użycie-)
+  * [Przykład:](#przykład-)
   * [Instalacja Pythona (Windows)](#instalacja-pythona-(windows))
   * [Konfiguracja CLion](#konfiguracja-clion)
 
