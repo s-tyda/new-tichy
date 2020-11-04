@@ -26,9 +26,9 @@ username = 'login'
 passwd = 'haslo'
 ```
 
-## Użycie
+## Użycie:
     python tichy.py <numer zadania> <rozwiązanie>
-## Przykład
+## Przykład:
 
 ![przyklad](https://i.imgur.com/ZJZnuPO.png)
 
