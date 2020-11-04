@@ -1,12 +1,12 @@
 # quicktichy
 
 * [quicktichy](#quicktichy)
-  * [Co to quicktichy?](#co-to-quicktichy?)
+  * [Co to quicktichy?](#co-to-quicktichy)
   * [Wymagania](#wymagania)
   * [Konfiguracja](#konfiguracja)
-  * [Użycie:](#użycie-)
-  * [Przykład:](#przykład-)
-  * [Instalacja Pythona (Windows)](#instalacja-pythona-(windows))
+  * [Użycie:](#użycie)
+  * [Przykład:](#przykład)
+  * [Instalacja Pythona (Windows)](#instalacja-pythona-windows)
   * [Konfiguracja CLion](#konfiguracja-clion)
 
 ## Co to quicktichy?
