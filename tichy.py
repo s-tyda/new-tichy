@@ -19,7 +19,7 @@ with open(sys.argv[2], 'r') as file:
 #print(str(data))
 # przygotuj dane do logowania z pliku
 username = 'login'
-passwd = 'haaslo'
+passwd = 'haslo'
 
 br = mechanize.Browser()
 br.open("https://tichy.umcs.lublin.pl/accounts/login/")
