@@ -1,3 +1,4 @@
+import colorama
 import mechanize
 import time
 from bs4 import BeautifulSoup
@@ -6,6 +7,7 @@ import os.path
 from termcolor import colored
 from configparser import ConfigParser
 
+colorama.init(strip=False)
 # Sprawdzanie istnienia pliku konfiguracyjnego
 if not os.path.exists("config.ini"):
     print("It semms it's your first time using tichy script. You have to set your config to proceed.")
