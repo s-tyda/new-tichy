@@ -12,7 +12,7 @@ colorama.init(strip=False)
 if not os.path.exists("config.ini"):
     print("It semms it's your first time using tichy script. You have to set your config to proceed.")
     print("Wygląda na to, że używasz skryptu tichy po raz pierwszy. Musisz wprowadzić swoje dane logowania żeby kontynuować.")
-    print("Choose your language. Wybierz język.\n"+"[pl] polski\n"+"[en] english")
+    print("Choose your language. Wybierz język.\n[pl] polski\n[en] english")
     lang = input()
     if lang == "pl":
         usr = input("Twój login: ")
@@ -23,10 +23,10 @@ if not os.path.exists("config.ini"):
     f = open("config.ini", "x")
     f = open("config.ini", "a")
     f.write("[CONFIG]\n")
-    f.write("username = "+usr+'\n')
-    f.write("password = "+psw+'\n')
+    f.write("username = " + usr + '\n')
+    f.write("password = " + psw + '\n')
     f.write("course_id = \n")
-    f.write("language = "+lang)
+    f.write("language = " + lang)
     f.close()
     if lang == "pl":
         print("Teraz możesz już  korzystać ze skryptu.")
@@ -48,9 +48,10 @@ lang = userinfo["language"]
 # Włączanie przeglądarki
 br = mechanize.Browser()
 
+
 def help(test):
     if test == "zero":
-        if lang =="pl":
+        if lang == "pl":
             print('Użycie: tichy <komenda> [opcje] [<args>]\n')
             print("Komendy:")
             test = 13
@@ -200,13 +201,15 @@ def help(test):
     if test == "send":
         return 1
 
+
 # Otwieranie strony logowania
 def open_tichy():
     br.open("https://tichy.umcs.lublin.pl/accounts/login/")
     if lang == "pl":
-        print(colored(br.title()+", "+username+'!', attrs=['bold']))
+        print(colored(br.title() + ", " + username + '!', attrs=['bold']))
     else:
-        print(colored("Welcome on tichy, "+username+'!', attrs=['bold']))
+        print(colored("Welcome on tichy, " + username + '!', attrs=['bold']))
+
 
 # Logowanie na sprawdzarce
 def login():
@@ -220,16 +223,17 @@ def login():
     control = br.form.find_control("password")
     control.value = passwd
     br.submit()
-    if (br.title()=="Witamy na tichym"):
+    if (br.title() == "Witamy na tichym"):
         if lang == "pl":
-            print(colored("Niepoprawny login lub hasło.",'red', attrs=['bold']))
+            print(colored("Niepoprawny login lub hasło.", 'red', attrs=['bold']))
         else:
-            print(colored("Wrong login or password.",'red', attrs=['bold']))
+            print(colored("Wrong login or password.", 'red', attrs=['bold']))
         sys.exit(0)
     if lang == "pl":
-        print("["+colored("OK", 'green', attrs=['bold'])+"]Zalogowano poprawnie.")
+        print("[" + colored("OK", 'green', attrs=['bold']) + "]Zalogowano poprawnie.")
     else:
-        print("["+colored("OK", 'green', attrs=['bold'])+"]Logged successfully.")
+        print("[" + colored("OK", 'green', attrs=['bold']) + "]Logged successfully.")
+
 
 # Otworzenie kursu
 def open_course(id):
@@ -240,20 +244,22 @@ def open_course(id):
     try:
         link = course_find(id)
         br.open(link)
-    except:
+    except Exception:
         if lang == "pl":
             print(colored("Taki kurs nie istnieje.", 'red', attrs=['bold']))
         else:
             print(colored("This course doesn't exist.", 'red', attrs=['bold']))
         sys.exit(0)
     if lang == "pl":
-        print("["+colored("OK", 'green', attrs=['bold'])+"]Otworzono kurs "+br.title()+".")
+        print("[" + colored("OK", 'green', attrs=['bold']) + "]Otworzono kurs " + br.title() + ".")
     else:
-        print("["+colored("OK", 'green', attrs=['bold'])+"]Successfully opened course "+br.title()+".")
+        print("[" + colored("OK", 'green', attrs=['bold']) + "]Successfully opened course " + br.title() + ".")
+
 
 # Otworzenie strony głównej
 def open_main_page():
     br.open("https://tichy.umcs.lublin.pl/course/")
+
 
 # Wyświetlanie listy kursów
 def course_list():
@@ -275,6 +281,7 @@ def course_list():
         print('[' + str(id) + '] ' + li.get_text(strip=True))
         ++id
 
+
 # Zwracanie kursu o danym ID
 def course_find(id, is_print=False):
     kursy_response = br.response().read()
@@ -285,8 +292,9 @@ def course_find(id, is_print=False):
         link = kurs_list[id - 1].find('a')['href']
         return 'https://tichy.umcs.lublin.pl' + link
     else:
-        print(colored("\nAktualnie wybrany kurs:",attrs=['bold']))
-        print('[' + str(id) + '] ' + kurs_list[id-1].get_text(strip=True))
+        print(colored("\nAktualnie wybrany kurs:", attrs=['bold']))
+        print('[' + str(id) + '] ' + kurs_list[id - 1].get_text(strip=True))
+
 
 # Wyświetlanie listy zadań
 def task_list():
@@ -307,6 +315,7 @@ def task_list():
         kurs = tds[1].get_text(strip=True)
         print('[' + tds[0].text + '] ' + kurs)
 
+
 # Wysyłanie pliku
 def send_file(nr_zad, plik, results=[]):
     with open(plik, 'r') as file:
@@ -324,26 +333,26 @@ def send_file(nr_zad, plik, results=[]):
             zadanie = 'https://tichy.umcs.lublin.pl' + el
             zad_name = tds[0].text
 
-    if found == False:
+    if not found:
         if lang == "pl":
-            print(colored("Nie znaleziono zadania nr " + str(nr_zad),'red',attrs=['bold']))
+            print(colored("Nie znaleziono zadania nr " + str(nr_zad), 'red', attrs=['bold']))
         else:
-            print(colored("Cannot find exercise " + str(nr_zad),'red',attrs=['bold']))
+            print(colored("Cannot find exercise " + str(nr_zad), 'red', attrs=['bold']))
         exit(0)
     if lang == "pl":
-        print("[  ]Otwieranie strony zadania "+zad_name+"...")
+        print("[  ]Otwieranie strony zadania " + zad_name + "...")
     else:
-        print("[  ]Opening exercise "+zad_name+"...")
+        print("[  ]Opening exercise " + zad_name + "...")
     br.open(zadanie)
     if lang == "pl":
-        print("["+colored("OK", 'green', attrs=['bold'])+"]Otworzono zadanie "+zad_name+".")
+        print("[" + colored("OK", 'green', attrs=['bold']) + "]Otworzono zadanie " + zad_name + ".")
     else:
-        print("["+colored("OK", 'green', attrs=['bold'])+"]Successfully opened exercise "+zad_name+".")
+        print("[" + colored("OK", 'green', attrs=['bold']) + "]Successfully opened exercise " + zad_name + ".")
     req = br.click_link(text='Wyślij rozwiązanie')
     if lang == "pl":
-        print("[  ]Wysyłanie rozwiązania zadania "+zad_name+"...")
+        print("[  ]Wysyłanie rozwiązania zadania " + zad_name + "...")
     else:
-        print("[  ]Sending answer of exercise "+zad_name+"...")
+        print("[  ]Sending answer of exercise " + zad_name + "...")
     br.open(req)
     # print(" " + br.title())
     br.select_form(nr=0)
@@ -351,16 +360,16 @@ def send_file(nr_zad, plik, results=[]):
     rozwiazanie.value = str(data)
     response = br.submit()
     if lang == "pl":
-        print("["+colored("OK", 'green', attrs=['bold'])+"]Wysłano rozwiązanie.")
+        print("[" + colored("OK", 'green', attrs=['bold']) + "]Wysłano rozwiązanie.")
     else:
-        print("["+colored("OK", 'green', attrs=['bold'])+"]Sent.")
+        print("[" + colored("OK", 'green', attrs=['bold']) + "]Sent.")
     linkDoRozwiazania = br.geturl()
     sprawdzany = True
     if lang == "pl":
         print("[  ]Oczekiwanie na wyniki...")
     else:
         print("[  ]Waiting for results...")
-    while sprawdzany == True:
+    while sprawdzany:
         sprawdzany = False
         time.sleep(0.5)
         br.open(linkDoRozwiazania)
@@ -371,9 +380,9 @@ def send_file(nr_zad, plik, results=[]):
             if tds[1].text.strip() == 'Sprawdzany':
                 sprawdzany = True
     if lang == "pl":
-        print("["+colored("OK", 'green', attrs=['bold'])+"]Otrzymano wyniki.\n")
+        print("[" + colored("OK", 'green', attrs=['bold']) + "]Otrzymano wyniki.\n")
     else:
-        print("["+colored("OK", 'green', attrs=['bold'])+"]Results received.\n")
+        print("[" + colored("OK", 'green', attrs=['bold']) + "]Results received.\n")
 
     br.open(linkDoRozwiazania)
     response = br.response().read()
@@ -386,7 +395,7 @@ def send_file(nr_zad, plik, results=[]):
 
     longest = max(results, key=len)
 
-    if(longest=="Naruszenie ochrony pamięci"):
+    if(longest == "Naruszenie ochrony pamięci"):
         print("%2s | %-26s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
@@ -522,19 +531,19 @@ def send_file(nr_zad, plik, results=[]):
 
 
 args = sys.argv
-if len(args)==1:
+if len(args) == 1:
     help("zero")
     sys.exit(0)
 else:
     if args[1].startswith("-"):
-        if args[1]=='--list' or args[1]=='-l' or args[1]=='--lista':
+        if args[1] == '--list' or args[1] == '-l' or args[1] == '--lista':
             open_tichy()
             login()
             open_main_page()
             course_list()
             sys.exit(0)
         if args[1] == '--username' or args[1] == '-u' or args[1] == '--login':
-            if (len(args)==2):
+            if (len(args) == 2):
                 if lang == "pl":
                     usr = input("Nowy login: ")
                 else:
@@ -554,7 +563,7 @@ else:
                 print("[" + colored("OK", 'green', attrs=['bold']) + "]Saved successfully")
             sys.exit(0)
         if args[1] == '--password' or args[1] == '-p' or args[1] == '--haslo':
-            if (len(args)==2):
+            if (len(args) == 2):
                 if lang == "pl":
                     passw = input("Nowe hasło: ")
                 else:
@@ -575,15 +584,15 @@ else:
             sys.exit(0)
         if args[1] == '--config' or args[1] == '-c' or args[1] == '--dane':
             if lang == "pl":
-                print(colored("Zawartość pliku konfiguracji:",attrs=['bold']))
+                print(colored("Zawartość pliku konfiguracji:", attrs=['bold']))
             else:
-                print(colored("Contents of config file:",attrs=['bold']))
+                print(colored("Contents of config file:", attrs=['bold']))
             f = open('config.ini', 'r')
             for p in f:
-                if  p.startswith('[') or p.endswith(']'):
-                    print(colored(p,'red',attrs=['bold']),end="")
+                if p.startswith('[') or p.endswith(']'):
+                    print(colored(p, 'red', attrs=['bold']), end="")
                 else:
-                    print(p,end="")
+                    print(p, end="")
             sys.exit(0)
         if args[1] == '--help' or args[1] == '-h' or args[1] == '--pomoc':
             help("zero")
@@ -591,8 +600,8 @@ else:
         help("zero")
         sys.exit(0)
 
-    if args[1]=='course' or args[1]=='kurs' or args[1]=='c':
-        if len(args)==2 or args[2]=='--help' or args[2]=='-h' or args[2]=='--pomoc':
+    if args[1] == 'course' or args[1] == 'kurs' or args[1] == 'c':
+        if len(args) == 2 or args[2] == '--help' or args[2] == '-h' or args[2] == '--pomoc':
             help("course")
             sys.exit(0)
         if args[2] == '--list' or args[2] == '-l' or args[2] == '--lista':
@@ -606,10 +615,10 @@ else:
             open_tichy()
             login()
             open_main_page()
-            course_find(int(course_id),True)
+            course_find(int(course_id), True)
             sys.exit(0)
         if args[2] == '--set' or args[2] == '-s' or args[2] == '--ustaw':
-            if (len(args)==3):
+            if (len(args) == 3):
                 if lang == "pl":
                     new_id = input("Nowe ID kursu: ")
                 else:
@@ -631,15 +640,15 @@ else:
         help(args[1])
         sys.exit(0)
 
-    if args[1]=='exercise' or args[1]=='zadanie' or args[1]=='zad' or args[1]=='e':
-        if len(args)==2 or args[2]=='--help' or args[2]=='-h' or args[2]=='--pomoc':
+    if args[1] in ('exercise', 'zadanie', 'zad', 'e'):
+        if len(args) == 2 or args[2] == '--help' or args[2] == '-h' or args[2] == '--pomoc':
             help("exercise")
             sys.exit(0)
         if args[2] == '--list' or args[2] == '-l' or args[2] == '--lista':
             print('list')
             sys.exit(0)
-        if args[2] == '--send' or args[2] =='-s' or args[2] == 'wyslij':
-            if len(args)<4 or len(args)>5:
+        if args[2] == '--send' or args[2] == '-s' or args[2] == 'wyslij':
+            if len(args) < 4 or len(args) > 5:
                 print("Error")
                 sys.exit(0)
             open_tichy()
@@ -648,7 +657,8 @@ else:
             open_course(int(course_id))
             if not os.path.exists(args[3]):
                 if lang == "pl":
-                    print(colored("Nie znaleziono pliku.", 'red', attrs=['bold']))
+                    print(colored("Nie znaleziono pliku.", 'red',
+                                  attrs=['bold']))
                 else:
                     print(colored("File not found.", 'red', attrs=['bold']))
                 sys.exit(0)
