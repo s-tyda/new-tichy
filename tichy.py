@@ -10,8 +10,11 @@ from configparser import ConfigParser
 colorama.init(strip=False)
 # Sprawdzanie istnienia pliku konfiguracyjnego
 if not os.path.exists("config.ini"):
-    print("It semms it's your first time using tichy script. You have to set your config to proceed.")
-    print("Wygląda na to, że używasz skryptu tichy po raz pierwszy. Musisz wprowadzić swoje dane logowania żeby kontynuować.")
+    print("It semms it's your first time using tichy script. You have"
+          "to set your config to proceed.")
+    print("Wygląda na to, że używasz skryptu tichy po raz"
+          "pierwszy. Musisz wprowadzić swoje dane logowania żeby"
+          "kontynuować.")
     print("Choose your language. Wybierz język.\n[pl] polski\n[en] english")
     lang = input()
     if lang == "pl":
@@ -160,7 +163,8 @@ def help(test):
         return 1
     if test == "exercise":
         if lang == "pl":
-            print('Użycie: tichy <exercise, e , zadanie, zad> [opcje] [<args>]\n')
+            print('Użycie: tichy <exercise, e , zadanie, zad> [opcje]'
+                  '[<args>]\n')
             print("Opcje:")
             print('   {:<56} {:<s}'.format(
                 "-h, --help, --pomoc",
@@ -179,7 +183,8 @@ def help(test):
                 "Numer zadania jest opcjonalny"
             ))
         else:
-            print('Usage: tichy <exercise, e , zadanie, zad> [options] [<args>]\n')
+            print('Usage: tichy <exercise, e , zadanie, zad> [options]'
+                  '[<args>]\n')
             print("Options:")
             print('   {:<56} {:<s}'.format(
                 "-h, --help, --pomoc",
@@ -225,14 +230,16 @@ def login():
     br.submit()
     if (br.title() == "Witamy na tichym"):
         if lang == "pl":
-            print(colored("Niepoprawny login lub hasło.", 'red', attrs=['bold']))
+            print(colored("Niepoprawny login lub hasło.", 'red',
+                          attrs=['bold']))
         else:
-            print(colored("Wrong login or password.", 'red', attrs=['bold']))
+            print(colored("Wrong login or password.", 'red',
+                          attrs=['bold']))
         sys.exit(0)
     if lang == "pl":
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Zalogowano poprawnie.")
+        print(f"[{OK}]Zalogowano poprawnie.")
     else:
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Logged successfully.")
+        print(f"[{OK}]Logged successfully.")
 
 
 # Otworzenie kursu
@@ -251,9 +258,9 @@ def open_course(id):
             print(colored("This course doesn't exist.", 'red', attrs=['bold']))
         sys.exit(0)
     if lang == "pl":
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Otworzono kurs " + br.title() + ".")
+        print(f"[{OK}]Otworzono kurs " + br.title() + ".")
     else:
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Successfully opened course " + br.title() + ".")
+        print(f"[{OK}]Successfully opened course " + br.title() + ".")
 
 
 # Otworzenie strony głównej
@@ -271,11 +278,11 @@ def course_list():
     id = 1
     if lang == "pl":
         print("[  ]Pobieranie listy kursów...")
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Pobrano pomyślnie.\n")
+        print(f"[{OK}]Pobrano pomyślnie.\n")
         print(colored("Dostępne kursy:", attrs=['bold']))
     else:
         print("[  ]Downloading course list...")
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Downloaded successfully.\n")
+        print(f"[{OK}]Downloaded successfully.\n")
         print(colored("Available courses:", attrs=['bold']))
     for li in kurs_list:
         print('[' + str(id) + '] ' + li.get_text(strip=True))
@@ -300,15 +307,16 @@ def course_find(id, is_print=False):
 def task_list():
     kursy_response = br.response().read()
     soup = BeautifulSoup(kursy_response, "html.parser")
-    kurs_body = soup.find("table", {"class": "table table-striped"}).find('tbody')
+    kurs_body = soup.find("table", {"class": "table table-striped"})\
+                    .find('tbody')
     kurs_list = kurs_body.findAll('tr')
     if lang == "pl":
         print("[  ]Pobieranie listy zadań...")
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Pobrano pomyślnie.\n")
+        print(f"[{OK}]Pobrano pomyślnie.\n")
         print(colored("Dostępne zadania:", attrs=['bold']))
     else:
         print("[  ]Downloading exercise list...")
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Downloaded successfully.\n")
+        print(f"[{OK}]Downloaded successfully.\n")
         print(colored("Available exercises:", attrs=['bold']))
     for tr in kurs_list:
         tds = tr.findAll('td')
@@ -323,7 +331,8 @@ def send_file(nr_zad, plik, results=[]):
     found = False
     kursy_response = br.response().read()
     soup = BeautifulSoup(kursy_response, "html.parser")
-    kurs_body = soup.find("table", {"class": "table table-striped"}).find('tbody')
+    kurs_body = soup.find("table", {"class": "table table-striped"})\
+                    .find('tbody')
     kurs_list = kurs_body.findAll('tr')
     for tr in kurs_list:
         tds = tr.findAll('td')
@@ -335,9 +344,11 @@ def send_file(nr_zad, plik, results=[]):
 
     if not found:
         if lang == "pl":
-            print(colored("Nie znaleziono zadania nr " + str(nr_zad), 'red', attrs=['bold']))
+            print(colored(f"Nie znaleziono zadania nr {nr_zad}", 'red',
+                          attrs=['bold']))
         else:
-            print(colored("Cannot find exercise " + str(nr_zad), 'red', attrs=['bold']))
+            print(colored(f"Cannot find exercise {nr_zad}", 'red',
+                          attrs=['bold']))
         exit(0)
     if lang == "pl":
         print("[  ]Otwieranie strony zadania " + zad_name + "...")
@@ -345,9 +356,9 @@ def send_file(nr_zad, plik, results=[]):
         print("[  ]Opening exercise " + zad_name + "...")
     br.open(zadanie)
     if lang == "pl":
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Otworzono zadanie " + zad_name + ".")
+        print(f"[{OK}]Otworzono zadanie " + zad_name + ".")
     else:
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Successfully opened exercise " + zad_name + ".")
+        print(f"[{OK}]Successfully opened exercise " + zad_name + ".")
     req = br.click_link(text='Wyślij rozwiązanie')
     if lang == "pl":
         print("[  ]Wysyłanie rozwiązania zadania " + zad_name + "...")
@@ -360,9 +371,9 @@ def send_file(nr_zad, plik, results=[]):
     rozwiazanie.value = str(data)
     response = br.submit()
     if lang == "pl":
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Wysłano rozwiązanie.")
+        print(f"[{OK}]Wysłano rozwiązanie.")
     else:
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Sent.")
+        print(f"[{OK}]Sent.")
     linkDoRozwiazania = br.geturl()
     sprawdzany = True
     if lang == "pl":
@@ -380,9 +391,9 @@ def send_file(nr_zad, plik, results=[]):
             if tds[1].text.strip() == 'Sprawdzany':
                 sprawdzany = True
     if lang == "pl":
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Otrzymano wyniki.\n")
+        print(f"[{OK}]Otrzymano wyniki.\n")
     else:
-        print("[" + colored("OK", 'green', attrs=['bold']) + "]Results received.\n")
+        print(f"[{OK}]Results received.\n")
 
     br.open(linkDoRozwiazania)
     response = br.response().read()
@@ -530,6 +541,7 @@ def send_file(nr_zad, plik, results=[]):
             continue
 
 
+OK = colored("OK", 'green', attrs=['bold'])
 args = sys.argv
 if len(args) == 1:
     help("zero")
@@ -558,9 +570,9 @@ else:
             with open('config.ini', 'w') as conf:
                 config_object.write(conf)
             if lang == "pl":
-                print("[" + colored("OK", 'green', attrs=['bold']) + "]Zapisano pomyślnie")
+                print(f"[{OK}]Zapisano pomyślnie")
             else:
-                print("[" + colored("OK", 'green', attrs=['bold']) + "]Saved successfully")
+                print(f"[{OK}]Saved successfully")
             sys.exit(0)
         if args[1] == '--password' or args[1] == '-p' or args[1] == '--haslo':
             if (len(args) == 2):
@@ -578,9 +590,9 @@ else:
             with open('config.ini', 'w') as conf:
                 config_object.write(conf)
             if lang == "pl":
-                print("[" + colored("OK", 'green', attrs=['bold']) + "]Zapisano pomyślnie.")
+                print(f"[{OK}]Zapisano pomyślnie.")
             else:
-                print("[" + colored("OK", 'green', attrs=['bold']) + "]Saved successfully.")
+                print(f"[{OK}]Saved successfully.")
             sys.exit(0)
         if args[1] == '--config' or args[1] == '-c' or args[1] == '--dane':
             if lang == "pl":
@@ -600,8 +612,8 @@ else:
         help("zero")
         sys.exit(0)
 
-    if args[1] == 'course' or args[1] == 'kurs' or args[1] == 'c':
-        if len(args) == 2 or args[2] == '--help' or args[2] == '-h' or args[2] == '--pomoc':
+    if args[1] in ('course', 'kurs', 'c'):
+        if len(args) == 2 or args[2] in ('--help', '-h', '--pomoc'):
             help("course")
             sys.exit(0)
         if args[2] == '--list' or args[2] == '-l' or args[2] == '--lista':
@@ -633,21 +645,21 @@ else:
             with open('config.ini', 'w') as conf:
                 config_object.write(conf)
             if lang == "pl":
-                print("[" + colored("OK", 'green', attrs=['bold']) + "]Zapisano pomyślnie.")
+                print(f"[{OK}]Zapisano pomyślnie.")
             else:
-                print("[" + colored("OK", 'green', attrs=['bold']) + "]Saved successfully.")
+                print(f"[{OK}]Saved successfully.")
             sys.exit(0)
         help(args[1])
         sys.exit(0)
 
     if args[1] in ('exercise', 'zadanie', 'zad', 'e'):
-        if len(args) == 2 or args[2] == '--help' or args[2] == '-h' or args[2] == '--pomoc':
+        if len(args) == 2 or args[2] in ('--help', '-h', '--pomoc'):
             help("exercise")
             sys.exit(0)
-        if args[2] == '--list' or args[2] == '-l' or args[2] == '--lista':
+        if args[2] in ('--list', '-l', '--lista'):
             print('list')
             sys.exit(0)
-        if args[2] == '--send' or args[2] == '-s' or args[2] == 'wyslij':
+        if args[2] in ('--send', '-s', 'wyslij'):
             if len(args) < 4 or len(args) > 5:
                 print("Error")
                 sys.exit(0)
