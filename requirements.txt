@@ -1,0 +1,8 @@
+beautifulsoup4==4.9.3
+colorama==0.4.4
+html5lib==1.1
+mechanize==0.4.5
+six==1.15.0
+soupsieve==2.0.1
+termcolor==1.1.0
+webencodings==0.5.1
