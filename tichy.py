@@ -191,7 +191,7 @@ def login():
         else:
             print(colored("Wrong login or password.", 'red',
                           attrs=['bold']))
-        sys.exit(0)
+        sys.exit(1)
     if lang == "pl":
         print(f"[{OK}]Zalogowano poprawnie.")
     else:
@@ -212,7 +212,7 @@ def open_course(id):
             print(colored("Taki kurs nie istnieje.", 'red', attrs=['bold']))
         else:
             print(colored("This course doesn't exist.", 'red', attrs=['bold']))
-        sys.exit(0)
+        sys.exit(1)
     if lang == "pl":
         print(f"[{OK}]Otworzono kurs " + br.title() + ".")
     else:
@@ -305,7 +305,8 @@ def send_file(nr_zad, plik, results=[]):
         else:
             print(colored(f"Cannot find exercise {nr_zad}", 'red',
                           attrs=['bold']))
-        exit(0)
+        exit(1)
+
     if lang == "pl":
         print("[  ]Otwieranie strony zadania " + zad_name + "...")
     else:
@@ -367,49 +368,42 @@ def send_file(nr_zad, plik, results=[]):
             "Time (s)",
             "Memory (kB)",
         ))
-
     elif (longest == "Błąd wykonania"):
         print("%2s | %-14s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-
     elif (longest == "Niedozwolona instrukcja"):
         print("%2s | %-23s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-
     elif (longest == "Przekroczona pamięć"):
         print("%2s | %-19s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-
     elif (longest == "Zła odpowiedź"):
         print("%2s | %-13s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-
     elif (longest == "Zaliczone"):
         print("%2s | %-9s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-
     elif (longest == "Przekroczony czas"):
         print("%2s | %-17s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-
     elif (longest == "Błąd kompilacji"):
         print("%2s | %-15s | %-15s | %s" % (
             "ID", "Result",
@@ -501,16 +495,13 @@ if __name__ == '__main__':
 
     if len(args) == 1:
         help("zero")
-        sys.exit(0)
-
-    if args[1].startswith("-"):
+    elif args[1].startswith("-"):
         if args[1] == '--list' or args[1] == '-l' or args[1] == '--lista':
             open_tichy()
             login()
             open_main_page()
             course_list()
-            sys.exit(0)
-        if args[1] == '--username' or args[1] == '-u' or args[1] == '--login':
+        elif args[1] in ('--username', '-u', '--login'):
             if (len(args) == 2):
                 if lang == "pl":
                     usr = input("Nowy login: ")
@@ -529,8 +520,7 @@ if __name__ == '__main__':
                 print(f"[{OK}]Zapisano pomyślnie")
             else:
                 print(f"[{OK}]Saved successfully")
-            sys.exit(0)
-        if args[1] == '--password' or args[1] == '-p' or args[1] == '--haslo':
+        elif args[1] in ('--password', '-p', '--haslo'):
             if (len(args) == 2):
                 if lang == "pl":
                     passw = input("Nowe hasło: ")
@@ -549,8 +539,7 @@ if __name__ == '__main__':
                 print(f"[{OK}]Zapisano pomyślnie.")
             else:
                 print(f"[{OK}]Saved successfully.")
-            sys.exit(0)
-        if args[1] == '--config' or args[1] == '-c' or args[1] == '--dane':
+        elif args[1] == '--config' or args[1] == '-c' or args[1] == '--dane':
             if lang == "pl":
                 print(colored("Zawartość pliku konfiguracji:", attrs=['bold']))
             else:
@@ -561,31 +550,26 @@ if __name__ == '__main__':
                     print(colored(p, 'red', attrs=['bold']), end="")
                 else:
                     print(p, end="")
-            sys.exit(0)
-        if args[1] == '--help' or args[1] == '-h' or args[1] == '--pomoc':
+        elif args[1] == '--help' or args[1] == '-h' or args[1] == '--pomoc':
             help("zero")
-            sys.exit(0)
-        help("zero")
-        sys.exit(0)
+        else:
+            help("zero")
 
     if args[1] in ('course', 'kurs', 'c'):
         if len(args) == 2 or args[2] in ('--help', '-h', '--pomoc'):
             help("course")
-            sys.exit(0)
-        if args[2] == '--list' or args[2] == '-l' or args[2] == '--lista':
+        elif args[2] == '--list' or args[2] == '-l' or args[2] == '--lista':
             open_tichy()
             login()
             open_main_page()
             open_course(int(course_id))
             task_list()
-            sys.exit(0)
-        if args[2] == '--view' or args[2] == '-v' or args[2] == '--zobacz':
+        elif args[2] == '--view' or args[2] == '-v' or args[2] == '--zobacz':
             open_tichy()
             login()
             open_main_page()
             course_find(int(course_id), True)
-            sys.exit(0)
-        if args[2] == '--set' or args[2] == '-s' or args[2] == '--ustaw':
+        elif args[2] == '--set' or args[2] == '-s' or args[2] == '--ustaw':
             if (len(args) == 3):
                 if lang == "pl":
                     new_id = input("Nowe ID kursu: ")
@@ -604,21 +588,18 @@ if __name__ == '__main__':
                 print(f"[{OK}]Zapisano pomyślnie.")
             else:
                 print(f"[{OK}]Saved successfully.")
-            sys.exit(0)
-        help(args[1])
-        sys.exit(0)
-
-    if args[1] in ('exercise', 'zadanie', 'zad', 'e'):
+        else:
+            help(args[1])
+    elif args[1] in ('exercise', 'zadanie', 'zad', 'e'):
         if len(args) == 2 or args[2] in ('--help', '-h', '--pomoc'):
             help("exercise")
-            sys.exit(0)
-        if args[2] in ('--list', '-l', '--lista'):
+        elif args[2] in ('--list', '-l', '--lista'):
             print('list')
-            sys.exit(0)
-        if args[2] in ('--send', '-s', 'wyslij'):
+        elif args[2] in ('--send', '-s', 'wyslij'):
             if len(args) < 4 or len(args) > 5:
                 print("Error")
-                sys.exit(0)
+                sys.exit(1)
+
             open_tichy()
             login()
             open_main_page()
@@ -629,7 +610,8 @@ if __name__ == '__main__':
                                   attrs=['bold']))
                 else:
                     print(colored("File not found.", 'red', attrs=['bold']))
-                sys.exit(0)
+                sys.exit(1)
+
             if len(args) == 5:
                 nr_zad = args[4]
             else:
@@ -639,6 +621,3 @@ if __name__ == '__main__':
                 else:
                     nr_zad = input("\nExercise number: ")
             send_file(nr_zad, args[3])
-
-        sys.exit(0)
-    sys.exit(0)
