@@ -7,50 +7,6 @@ import os.path
 from termcolor import colored
 from configparser import ConfigParser
 
-colorama.init(strip=False)
-# Sprawdzanie istnienia pliku konfiguracyjnego
-if not os.path.exists("config.ini"):
-    print("It semms it's your first time using tichy script. You have"
-          "to set your config to proceed.")
-    print("Wygląda na to, że używasz skryptu tichy po raz"
-          "pierwszy. Musisz wprowadzić swoje dane logowania żeby"
-          "kontynuować.")
-    print("Choose your language. Wybierz język.\n[pl] polski\n[en] english")
-    lang = input()
-    if lang == "pl":
-        usr = input("Twój login: ")
-        psw = input("Twoje hasło: ")
-    else:
-        usr = input("Your username: ")
-        psw = input("Your password: ")
-    f = open("config.ini", "x")
-    f = open("config.ini", "a")
-    f.write("[CONFIG]\n")
-    f.write("username = " + usr + '\n')
-    f.write("password = " + psw + '\n')
-    f.write("course_id = \n")
-    f.write("language = " + lang)
-    f.close()
-    if lang == "pl":
-        print("Teraz możesz już  korzystać ze skryptu.")
-    else:
-        print("Now you can proceed with running a script.")
-    sys.exit(0)
-
-# Odczytanie danych z konfiguracji
-config_object = ConfigParser()
-config_object.read("config.ini")
-
-# Dane
-userinfo = config_object["CONFIG"]
-username = userinfo["username"]
-passwd = userinfo["password"]
-course_id = userinfo["course_id"]
-lang = userinfo["language"]
-
-# Włączanie przeglądarki
-br = mechanize.Browser()
-
 
 def help(test):
     if test == "zero":
@@ -401,7 +357,6 @@ def send_file(nr_zad, plik, results=[]):
     # print("ID | Result    | Time (s)        | Memory (kB)")
     for tr in soup.find(id='results_table').find('tbody').findAll('tr'):
         tds = tr.findAll('td')
-        uid = tr.attrs['id'][3:]
         results.append(tds[1].text.strip())
 
     longest = max(results, key=len)
@@ -464,89 +419,90 @@ def send_file(nr_zad, plik, results=[]):
 
     for tr in soup.find(id='results_table').find('tbody').findAll('tr'):
         tds = tr.findAll('td')
-        uid = tr.attrs['id'][3:]
         if (tds[1].text.strip() != "Zaliczone"):
-            # status = ("id testu: " + tds[0].text + " | " + colored(tds[1].text.strip(), 'red', attrs=['bold']))
             status = colored(tds[1].text.strip(), 'red', attrs=['bold'])
         else:
-            # status = ("id testu: " + tds[0].text + " | " + colored(tds[1].text.strip(), 'green', attrs=['bold']))
             status = colored(tds[1].text.strip(), 'green', attrs=['bold'])
-        # print(status)
-        # print("rozmiar: " + tds[2].text.strip())
-        # print("czas: " + tds[3].text.strip() + " / " + str(float(tds[4].text.strip()[:-2].replace(',', '.'))) + " s")
-        # print("pamięć: " + tds[5].text.strip() + " / " + str(int(tds[6].text.strip()[:-3])) + " kB")
-        # print('----------------')
+
         if longest == "Niedozwolona instrukcja":
-            print('{:>2} | {:<36} | {:<6s} / {:<6s} | {:>s} / {:>s}'.format(
-                tds[0].text, status,
-                tds[3].text.strip(), tds[4].text.strip(),
-                tds[5].text.strip(), tds[6].text.strip()
-            ))
-            continue
-
+            row_format = '{:>2} | {:<36} | {:<6s} / {:<6s} | {:>s} / {:>s}'
         elif longest == "Naruszenie ochrony pamięci":
-            print('{:>2} | {:<39} | {:<6s} / {:<6s} | {:>s} / {:>s}'.format(
-                tds[0].text, status,
-                tds[3].text.strip(), tds[4].text.strip(),
-                tds[5].text.strip(), tds[6].text.strip()
-            ))
-            continue
-
+            row_format = '{:>2} | {:<39} | {:<6s} / {:<6s} | {:>s} / {:>s}'
         elif longest == "Błąd wykonania":
-            print('{:>2} | {:<27} | {:<6s} / {:<6s} | {:>s} / {:>s}'.format(
-                tds[0].text, status,
-                tds[3].text.strip(), tds[4].text.strip(),
-                tds[5].text.strip(), tds[6].text.strip()
-            ))
-            continue
-
+            row_format = '{:>2} | {:<27} | {:<6s} / {:<6s} | {:>s} / {:>s}'
         elif longest == "Przekroczona pamięć":
-            print('{:>2} | {:<32} | {:<6s} / {:<6s} | {:>s} / {:>s}'.format(
-                tds[0].text, status,
-                tds[3].text.strip(), tds[4].text.strip(),
-                tds[5].text.strip(), tds[6].text.strip()
-            ))
-            continue
-
+            row_format = '{:>2} | {:<32} | {:<6s} / {:<6s} | {:>s} / {:>s}'
         elif longest == "Zła odpowiedź":
-            print('{:>2} | {:<26} | {:<6s} / {:<6s} | {:>s} / {:>s}'.format(
-                tds[0].text, status,
-                tds[3].text.strip(), tds[4].text.strip(),
-                tds[5].text.strip(), tds[6].text.strip()
-            ))
-            continue
-
+            row_format = '{:>2} | {:<26} | {:<6s} / {:<6s} | {:>s} / {:>s}'
         elif longest == "Zaliczone":
-            print('{:>2} | {:<22} | {:<6s} / {:<6s} | {:>s} / {:>s}'.format(
-                tds[0].text, status,
-                tds[3].text.strip(), tds[4].text.strip(),
-                tds[5].text.strip(), tds[6].text.strip()
-            ))
-            continue
-
+            row_format = '{:>2} | {:<22} | {:<6s} / {:<6s} | {:>s} / {:>s}'
         elif longest == "Przekroczony czas":
-            print('{:>2} | {:<30} | {:<6s} / {:<6s} | {:>s} / {:>s}'.format(
-                tds[0].text, status,
-                tds[3].text.strip(), tds[4].text.strip(),
-                tds[5].text.strip(), tds[6].text.strip()
-            ))
-            continue
-
+            row_format = '{:>2} | {:<30} | {:<6s} / {:<6s} | {:>s} / {:>s}'
         elif longest == "Błąd kompilacji":
-            print('{:>2} | {:<28} | {:<6s} / {:<6s} | {:>s} / {:>s}'.format(
-                tds[0].text, status,
-                tds[3].text.strip(), tds[4].text.strip(),
-                tds[5].text.strip(), tds[6].text.strip()
-            ))
-            continue
+            row_format = '{:>2} | {:<28} | {:<6s} / {:<6s} | {:>s} / {:>s}'
+
+        print(row_format.format(
+            tds[0].text, status,
+            tds[3].text.strip(), tds[4].text.strip(),
+            tds[5].text.strip(), tds[6].text.strip()
+        ))
 
 
-OK = colored("OK", 'green', attrs=['bold'])
-args = sys.argv
-if len(args) == 1:
-    help("zero")
-    sys.exit(0)
-else:
+if __name__ == '__main__':
+    colorama.init(strip=False)
+    global OK
+    OK = colored("OK", 'green', attrs=['bold'])
+    args = sys.argv
+
+    # Sprawdzanie istnienia pliku konfiguracyjnego
+    if not os.path.exists("config.ini"):
+        print("It semms it's your first time using tichy script. You have"
+              "to set your config to proceed.\n"
+              "Wygląda na to, że używasz skryptu tichy po raz"
+              "pierwszy. Musisz wprowadzić swoje dane logowania żeby"
+              "kontynuować.\n"
+              "Choose your language. Wybierz język.\n"
+              "[pl] polski\n[en] english")
+
+        lang = input()
+        if lang == "pl":
+            usr = input("Twój login: ")
+            psw = input("Twoje hasło: ")
+        else:
+            usr = input("Your username: ")
+            psw = input("Your password: ")
+        f = open("config.ini", "x")
+        f = open("config.ini", "a")
+        f.write("[CONFIG]\n")
+        f.write("username = " + usr + '\n')
+        f.write("password = " + psw + '\n')
+        f.write("course_id = \n")
+        f.write("language = " + lang)
+        f.close()
+        if lang == "pl":
+            print(f"[{OK}]Teraz możesz już  korzystać ze skryptu.")
+        else:
+            print(f"[{OK}]Now you can proceed with running a script.")
+        sys.exit(0)
+
+    # Odczytanie danych z konfiguracji
+    config_object = ConfigParser()
+    config_object.read("config.ini")
+
+    # Dane
+    userinfo = config_object["CONFIG"]
+    username = userinfo["username"]
+    passwd = userinfo["password"]
+    course_id = userinfo["course_id"]
+    lang = userinfo["language"]
+
+    # Włączanie przeglądarki
+    br = mechanize.Browser()
+
+    if len(args) == 1:
+        help("zero")
+        sys.exit(0)
+
     if args[1].startswith("-"):
         if args[1] == '--list' or args[1] == '-l' or args[1] == '--lista':
             open_tichy()
