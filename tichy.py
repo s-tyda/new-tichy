@@ -132,7 +132,7 @@ def help(test):
             ))
             print('   {:<56} {:<s}'.format(
                 "-s, --send, --wyslij <plik> [<nr_zadania>]",
-                "Wysyła rozwiązanie arg1 na sprawdzarkę i wyświetla wynik"
+                "Wysyła rozwiązanie plik na sprawdzarkę i wyświetla wynik"
             ))
             print('   {:<56} {:<s}'.format(
                 "",
