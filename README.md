@@ -5,7 +5,7 @@
   * [Wymagania](#wymagania)
   * [Konfiguracja](#konfiguracja)
   * [Użycie](#użycie)
-  * [Ważniejsze przykłady](#waniejsze-przykady)
+  * [Ważniejsze przykłady](#ważniejsze-przykłady)
 
 ## Co to quicktichy?
 
