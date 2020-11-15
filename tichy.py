@@ -477,8 +477,10 @@ if __name__ == '__main__':
         f.close()
         if lang == "pl":
             print(f"[{OK}]Teraz możesz już  korzystać ze skryptu.")
+            print("Nie zapomnij ustawić ID kursu, za pomocą komendy 'tichy course --set'!")
         else:
             print(f"[{OK}]Now you can proceed with running a script.")
+            print("Don't forgt to set course ID, using command 'tichy course --set'!")
         sys.exit(0)
 
     # Odczytanie danych z konfiguracji
