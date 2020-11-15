@@ -16,6 +16,8 @@
    * Python 3.7 +
    * Moduły: re, mechanize, time, bs4, sys
 
+## Instalacja
+[Link do pobrania najnowszej wersji](https://github.com/s-tyda/new-tichy/releases/tag/v.0.6)
 ## Konfiguracja
 
 Odpalając skrypt po raz pierwszy (nieważne jaką komendą) konsola sama poprowadzi cię przez wstępną konfigurację i wygeneruje odpowiedni plik konfiguracyjny w folderze ze skryptem.
