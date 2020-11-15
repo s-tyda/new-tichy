@@ -45,8 +45,8 @@ tichy --pomoc
 ![tichy_help](images/tichy_help.gif?raw=true)
 
 ```python
-#Ustawia ID kursu w konfiguracji na 'id'
-#Argument 'id' jest opcjonalny
+#Ustawia ID kursu w konfiguracji na <id>
+#Argument <id> jest opcjonalny
 tichy <course, c, kurs> -s [<id>]
 tichy <course, c, kurs> --set [<id>]
 tichy <course, c, kurs> --ustaw [<id>]
@@ -55,8 +55,8 @@ tichy <course, c, kurs> --ustaw [<id>]
 ![tichy_help](images/tichy_course_set.gif?raw=true)
 
 ```python
-#Wysyła zadanie o relatywnej ścieżce 'path' na sprawdzarkę
-#Argument 'nr' jest opcjonalny
+#Wysyła zadanie o relatywnej ścieżce <path> na sprawdzarkę
+#Argument <nr> jest opcjonalny
 tichy <exercise, e, zadanie, zad> -s <path> [<nr]
 tichy <exercise, e, zadanie, zad> --send <path> [<nr]
 tichy <exercise, e, zadanie, zad> --wyslij <path> [<nr]
