@@ -64,7 +64,7 @@ tichy <exercise, e, zadanie, zad> --wyslij <path> [<nr]
 
 ![tichy_help](images/tichy_exercise_send.gif?raw=true)
 
-**Żeby zobaczyć inne komendy użyj jednej z poniższych opcji, albo przejdź do [dokumentacji](docs/documentation.md).**
+**Żeby zobaczyć inne komendy przejdź do [dokumentacji](docs/documentation.md).**
 
 ## Przydatne poradniki
 * [Instalacja Pythona na Windows](docs/python_installation.md)
