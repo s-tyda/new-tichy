@@ -7,7 +7,9 @@ tichy <komenda> [opcje] [<argumenty>]
 **New-tichy** to napisany przez [h-okon](https://github.com/h-okon) i rozbudowany oraz odnowiony przeze mnie skrypt w języku Python, który pozwala na wysyłanie zadań na **Tichy** (sprawdzarkę algorytmiczną UMCS) za pomocą konsoli. Zwraca on wynik testów po sprawdzeniu.
 ### Komendy  
 [tichy-course](documentation_course.md)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Obsługa kursów  
 [tichy-exercise](documentation_exercise.md)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Obsługa zadań  
 ### Opcje  
 -c, --config, --dane  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wyświetla zawartość pliku konfiguracji
