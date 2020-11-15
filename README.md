@@ -29,14 +29,14 @@ Polecam wrzucać sobie skrypt do folderu każdego projektu z C/C+ i tam go sobie
 **Nie zapomnij potem ustawić aktualnego kursu za pomocą komendy **tichy course --set** (użycie poniżej), poniewż domyślnie żaden kurs nie jest wybrany!**
 
 ## Użycie:
-```yaml
+```console
 python tichy.py <komenda> [opcje] [<argumenty>]
 tichy <komenda> [opcje] [<argumenty>]
 ```
     
 Druga (zalecana) opcja jest dostępna tylko na linuxie, bądź przy dobrym [ustawieniu zmiennych środowiskowych systemu Windows](docs/python_environmental.md) oraz trzymaniu skryptu w folderze projektu.
 ## Ważniejsze przykłady:
-```yaml
+```console
 #Wyświetla informacje o użyciu
 tichy 
 tichy -h
@@ -46,7 +46,7 @@ tichy --pomoc
     
 ![tichy_help](images/tichy_help.gif?raw=true)
 
-```python
+```console
 #Ustawia ID kursu w konfiguracji na <id>
 #Argument <id> jest opcjonalny
 tichy <course, c, kurs> -s [<id>]
@@ -56,7 +56,7 @@ tichy <course, c, kurs> --ustaw [<id>]
 
 ![tichy_help](images/tichy_course_set.gif?raw=true)
 
-```python
+```console
 #Wysyła zadanie o relatywnej ścieżce <path> na sprawdzarkę
 #Argument <nr> jest opcjonalny
 tichy <exercise, e, zadanie, zad> -s <path> [<nr]
