@@ -281,7 +281,9 @@ def task_list():
 
 
 # Wysyłanie pliku
-def send_file(nr_zad, plik, results=[]):
+def send_file(nr_zad, plik, results=None):
+    if results is None:
+        results = []
     with open(plik, 'r') as file:
         data = file.read().replace('\n', '\n  ')
     found = False
@@ -331,7 +333,7 @@ def send_file(nr_zad, plik, results=[]):
         print(f"[{OK}]Wysłano rozwiązanie.")
     else:
         print(f"[{OK}]Sent.")
-    linkDoRozwiazania = br.geturl()
+    link_to_exercise = br.geturl()
     sprawdzany = True
     if lang == "pl":
         print("[  ]Oczekiwanie na wyniki...")
@@ -340,7 +342,7 @@ def send_file(nr_zad, plik, results=[]):
     while sprawdzany:
         sprawdzany = False
         time.sleep(0.5)
-        br.open(linkDoRozwiazania)
+        br.open(link_to_exercise)
         response = br.response().read()
         soup = BeautifulSoup(response, "html.parser")
         for tr in soup.find(id='results_table').find('tbody').findAll('tr'):
@@ -352,7 +354,7 @@ def send_file(nr_zad, plik, results=[]):
     else:
         print(f"[{OK}]Results received.\n")
 
-    br.open(linkDoRozwiazania)
+    br.open(link_to_exercise)
     response = br.response().read()
     soup = BeautifulSoup(response, "html.parser")
     # print("ID | Result    | Time (s)        | Memory (kB)")
@@ -362,49 +364,49 @@ def send_file(nr_zad, plik, results=[]):
 
     longest = max(results, key=len)
 
-    if(longest == "Naruszenie ochrony pamięci"):
+    if longest == "Naruszenie ochrony pamięci":
         print("%2s | %-26s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-    elif (longest == "Błąd wykonania"):
+    elif longest == "Błąd wykonania":
         print("%2s | %-14s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-    elif (longest == "Niedozwolona instrukcja"):
+    elif longest == "Niedozwolona instrukcja":
         print("%2s | %-23s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-    elif (longest == "Przekroczona pamięć"):
+    elif longest == "Przekroczona pamięć":
         print("%2s | %-19s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-    elif (longest == "Zła odpowiedź"):
+    elif longest == "Zła odpowiedź":
         print("%2s | %-13s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-    elif (longest == "Zaliczone"):
+    elif longest == "Zaliczone":
         print("%2s | %-9s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-    elif (longest == "Przekroczony czas"):
+    elif longest == "Przekroczony czas":
         print("%2s | %-17s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
             "Memory (kB)",
         ))
-    elif (longest == "Błąd kompilacji"):
+    elif longest == "Błąd kompilacji":
         print("%2s | %-15s | %-15s | %s" % (
             "ID", "Result",
             "Time (s)",
@@ -413,7 +415,7 @@ def send_file(nr_zad, plik, results=[]):
 
     for tr in soup.find(id='results_table').find('tbody').findAll('tr'):
         tds = tr.findAll('td')
-        if (tds[1].text.strip() != "Zaliczone"):
+        if tds[1].text.strip() != "Zaliczone":
             status = colored(tds[1].text.strip(), 'red', attrs=['bold'])
         else:
             status = colored(tds[1].text.strip(), 'green', attrs=['bold'])
@@ -502,7 +504,7 @@ if __name__ == '__main__':
             open_main_page()
             course_list()
         elif args[1] in ('--username', '-u', '--login'):
-            if (len(args) == 2):
+            if len(args) == 2:
                 if lang == "pl":
                     usr = input("Nowy login: ")
                 else:
@@ -521,7 +523,7 @@ if __name__ == '__main__':
             else:
                 print(f"[{OK}]Saved successfully")
         elif args[1] in ('--password', '-p', '--haslo'):
-            if (len(args) == 2):
+            if len(args) == 2:
                 if lang == "pl":
                     passw = input("Nowe hasło: ")
                 else:
@@ -555,7 +557,7 @@ if __name__ == '__main__':
         else:
             help("zero")
 
-    if args[1] in ('course', 'kurs', 'c'):
+    elif args[1] in ('course', 'kurs', 'c'):
         if len(args) == 2 or args[2] in ('--help', '-h', '--pomoc'):
             help("course")
         elif args[2] == '--list' or args[2] == '-l' or args[2] == '--lista':
@@ -570,7 +572,7 @@ if __name__ == '__main__':
             open_main_page()
             course_find(int(course_id), True)
         elif args[2] == '--set' or args[2] == '-s' or args[2] == '--ustaw':
-            if (len(args) == 3):
+            if len(args) == 3:
                 if lang == "pl":
                     new_id = input("Nowe ID kursu: ")
                 else:
@@ -589,7 +591,7 @@ if __name__ == '__main__':
             else:
                 print(f"[{OK}]Saved successfully.")
         else:
-            help(args[1])
+            help("course")
     elif args[1] in ('exercise', 'zadanie', 'zad', 'e'):
         if len(args) == 2 or args[2] in ('--help', '-h', '--pomoc'):
             help("exercise")
@@ -621,3 +623,5 @@ if __name__ == '__main__':
                 else:
                     nr_zad = input("\nExercise number: ")
             send_file(nr_zad, args[3])
+        else:
+            help("exercise")
