@@ -26,17 +26,17 @@ Polecam wrzucać sobie skrypt do folderu każdego projektu z C/C+ i tam go sobie
 
 ![tichy_first](images/tichy_first.gif?raw=true)
 
-**Nie zapomnij potem ustawić aktualnego kursu za pomocą komendy **tichy course -set** (użycie poniżej), poniewż domyślnie żaden kurs nie jest wybrany!**
+**Nie zapomnij potem ustawić aktualnego kursu za pomocą komendy **tichy course --set** (użycie poniżej), poniewż domyślnie żaden kurs nie jest wybrany!**
 
 ## Użycie:
-```console
+```yaml
 python tichy.py <komenda> [opcje] [<argumenty>]
 tichy <komenda> [opcje] [<argumenty>]
 ```
     
 Druga (zalecana) opcja jest dostępna tylko na linuxie, bądź przy dobrym [ustawieniu zmiennych środowiskowych systemu Windows](docs/python_environmental.md) oraz trzymaniu skryptu w folderze projektu.
 ## Ważniejsze przykłady:
-```python
+```yaml
 #Wyświetla informacje o użyciu
 tichy 
 tichy -h
