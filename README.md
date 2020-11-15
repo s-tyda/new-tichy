@@ -4,10 +4,8 @@
   * [Co to quicktichy?](#co-to-quicktichy)
   * [Wymagania](#wymagania)
   * [Konfiguracja](#konfiguracja)
-  * [Użycie:](#użycie)
-  * [Przykłady/Dokumentacja](#przykłady/dokumentacja)
-  * [Instalacja Pythona (Windows)](#instalacja-pythona-windows)
-  * [Konfiguracja CLion](#konfiguracja-clion)
+  * [Użycie](#użycie)
+  * [Ważniejsze przykłady](#waniejsze-przykady)
 
 ## Co to quicktichy?
 
@@ -32,7 +30,7 @@ Polecam wrzucać sobie skrypt do folderu każdego projektu z C/C+ i tam go sobie
     tichy <komenda> [opcje] [<argumenty>]
     
 Druga (zalecana) opcja jest dostępna tylko na linuxie, bądź przy dobrym ustawieniu zmiennych środowiskowych systemu Windows oraz trzymaniu skryptu w folderze projektu.
-## Ważniejsze:
+## Ważniejsze przykłady:
 Żeby zobaczyć inne komendy użyj jednej z poniższych opcji, albo przejdź do [dokumentacji](docs/documentation.md).
 ```python
 #Wyświetla informacje o użyciu
