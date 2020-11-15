@@ -1,14 +1,14 @@
-###Użycie  
+### Użycie  
 ```console
 python tichy.py <komenda> [opcje] [<argumenty>]
 tichy <komenda> [opcje] [<argumenty>]
 ```
-###Opis  
+### Opis  
 **New-tichy** to napisany przez [h-okon](https://github.com/h-okon) i rozbudowany oraz odnowiony przeze mnie skrypt w języku Python, który pozwala na wysyłanie zadań na **Tichy** (sprawdzarkę algorytmiczną UMCS) za pomocą konsoli. Zwraca on wynik testów po sprawdzeniu.
-###Komendy  
+### Komendy  
 [tichy-course](documentation_course.md)  
 [tichy-exercise](documentation_exercise.md)  
-###Opcje  
+### Opcje  
 -c, --config, --dane  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wyświetla zawartość pliku konfiguracji
 <details><summary>Kliknij aby rozwinąć</summary>  
@@ -25,4 +25,4 @@ tichy <komenda> [opcje] [<argumenty>]
 -u, --username, --login [&lt;usr>]  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zmienia login w konfiguracji na &lt;usr> (opcjonalne)
 
-###Zobacz też  
+### Zobacz też  
