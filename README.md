@@ -27,8 +27,10 @@ Polecam wrzucać sobie skrypt do folderu każdego projektu z C/C+ i tam go sobie
 **Nie zapomnij potem ustawić aktualnego kursu za pomocą komendy **tichy course -set** (użycie poniżej), poniewż domyślnie żaden kurs nie jest wybrany!**
 
 ## Użycie:
-    python tichy.py <komenda> [opcje] [<argumenty>]
-    tichy <komenda> [opcje] [<argumenty>]
+```console
+python tichy.py <komenda> [opcje] [<argumenty>]
+tichy <komenda> [opcje] [<argumenty>]
+```
     
 Druga (zalecana) opcja jest dostępna tylko na linuxie, bądź przy dobrym [ustawieniu zmiennych środowiskowych systemu Windows](docs/python_environmental.md) oraz trzymaniu skryptu w folderze projektu.
 ## Ważniejsze przykłady:
