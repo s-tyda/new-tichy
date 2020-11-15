@@ -8,9 +8,9 @@
   * [Ważniejsze przykłady](#ważniejsze-przykłady)
   * [Przydatne poradniki](#przydatne-poradniki)
 
-## Co to quicktichy?
+## Co to new-tichy?
 
-**Quicktichy** to napisany przez [h-okon](https://github.com/h-okon) i rozbudowany przeze mnie skrypt w języku Python, który pozwala na wysyłanie zadań na **Tichy** (sprawdzarkę algorytmiczną UMCS) za pomocą konsoli. Zwraca on wynik testów po sprawdzeniu.
+**New-tichy** to napisany przez [h-okon](https://github.com/h-okon) i rozbudowany oraz odnowiony przeze mnie skrypt w języku Python, który pozwala na wysyłanie zadań na **Tichy** (sprawdzarkę algorytmiczną UMCS) za pomocą konsoli. Zwraca on wynik testów po sprawdzeniu.
 
 ## Wymagania
    * Python 3.7 +

@@ -12,18 +12,20 @@
 ![img_03](../images/img_03.png?raw=true)
 
 - Pobieramy wszystkie potrzebne moduły, wpisując kolejno:
-```
+```console
 conda install -c anaconda colorama
 conda install -c omnia termcolor
 conda install -c anaconda beautifulsoup4
 pip install mechanize
 ```
 - Poprawność pobrania potrzebnych modułów można najszybciej sprawdzić próbując użyć skryptu poprzez komendę:
-```
+```console
 python path\tichy.py
 ```
-![img_04](../images/img_04.png?raw=true)
 
-Jeśli tak jak u mnie wyświetla się komunikat o błędzie użycia, a nie o brakujących modułach, to wszystko jest ok i nasz Python jest gotowy do uruchomienia skryptu. Możemy to przetestować podając w parametrach odpowiednie dane.
+- Jeśli tak jak u mnie wyświetla się komunikat o błędzie użycia, a nie o brakujących modułach, to wszystko jest ok i nasz Python jest gotowy do uruchomienia skryptu.
 
-![img_05](../images/img_05.png?raw=true)
+---
+
+####Zobacz też:
+[Konfiguracja zmiennych środowiskowych Pythona na Windows](python_environmental.md)
