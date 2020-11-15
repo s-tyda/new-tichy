@@ -8,12 +8,11 @@ from termcolor import colored
 from configparser import ConfigParser
 
 
-def help(test):
+def help_f(test):
     if test == "zero":
         if lang == "pl":
             print('Użycie: tichy <komenda> [opcje] [<args>]\n')
             print("Komendy:")
-            test = 13
             print('   {:<56} {:<s}'.format(
                 "course, c, kurs [opcje] [<args>]",
                 "Obsługa kursów"
@@ -46,7 +45,6 @@ def help(test):
         else:
             print('Usage: tichy <command> [options] [<args>]\n')
             print("Commands:")
-            test = 13
             print('   {:<56} {:<s}'.format(
                 "course, c, kurs [options] [<args>]",
                 "Course handling"
@@ -184,7 +182,7 @@ def login():
     control = br.form.find_control("password")
     control.value = passwd
     br.submit()
-    if (br.title() == "Witamy na tichym"):
+    if br.title() == "Witamy na tichym":
         if lang == "pl":
             print(colored("Niepoprawny login lub hasło.", 'red',
                           attrs=['bold']))
@@ -199,13 +197,13 @@ def login():
 
 
 # Otworzenie kursu
-def open_course(id):
+def open_course(temp_course_id):
     if lang == "pl":
         print("[  ]Otwieranie strony kursu...")
     else:
         print("[  ]Opening course...")
     try:
-        link = course_find(id)
+        link = course_find(temp_course_id)
         br.open(link)
     except Exception:
         if lang == "pl":
@@ -231,7 +229,7 @@ def course_list():
     kurs_body = soup.find("ul", {"class": "course-list"})
     kurs_list = kurs_body.findAll('li')
     # print (kurs_list[0].get_text(strip=True))
-    id = 1
+    temp_course_id = 1
     if lang == "pl":
         print("[  ]Pobieranie listy kursów...")
         print(f"[{OK}]Pobrano pomyślnie.\n")
@@ -241,22 +239,22 @@ def course_list():
         print(f"[{OK}]Downloaded successfully.\n")
         print(colored("Available courses:", attrs=['bold']))
     for li in kurs_list:
-        print('[' + str(id) + '] ' + li.get_text(strip=True))
-        ++id
+        print('[' + str(temp_course_id) + '] ' + li.get_text(strip=True))
+        ++temp_course_id
 
 
 # Zwracanie kursu o danym ID
-def course_find(id, is_print=False):
+def course_find(temp_course_id, is_print=False):
     kursy_response = br.response().read()
     soup = BeautifulSoup(kursy_response, "html.parser")
     kurs_body = soup.find("ul", {"class": "course-list"})
     kurs_list = kurs_body.findAll('li')
     if not is_print:
-        link = kurs_list[id - 1].find('a')['href']
+        link = kurs_list[temp_course_id - 1].find('a')['href']
         return 'https://tichy.umcs.lublin.pl' + link
     else:
         print(colored("\nAktualnie wybrany kurs:", attrs=['bold']))
-        print('[' + str(id) + '] ' + kurs_list[id - 1].get_text(strip=True))
+        print('[' + str(temp_course_id) + '] ' + kurs_list[temp_course_id - 1].get_text(strip=True))
 
 
 # Wyświetlanie listy zadań
@@ -281,7 +279,7 @@ def task_list():
 
 
 # Wysyłanie pliku
-def send_file(nr_zad, plik, results=None):
+def send_file(ex_number, plik, results=None):
     if results is None:
         results = []
     with open(plik, 'r') as file:
@@ -294,7 +292,7 @@ def send_file(nr_zad, plik, results=None):
     kurs_list = kurs_body.findAll('tr')
     for tr in kurs_list:
         tds = tr.findAll('td')
-        if str(nr_zad) == tds[0].text:
+        if str(ex_number) == tds[0].text:
             found = True
             el = tds[1].find('a')['href']
             zadanie = 'https://tichy.umcs.lublin.pl' + el
@@ -302,10 +300,10 @@ def send_file(nr_zad, plik, results=None):
 
     if not found:
         if lang == "pl":
-            print(colored(f"Nie znaleziono zadania nr {nr_zad}", 'red',
+            print(colored(f"Nie znaleziono zadania nr {ex_number}", 'red',
                           attrs=['bold']))
         else:
-            print(colored(f"Cannot find exercise {nr_zad}", 'red',
+            print(colored(f"Cannot find exercise {ex_number}", 'red',
                           attrs=['bold']))
         exit(1)
 
@@ -328,7 +326,7 @@ def send_file(nr_zad, plik, results=None):
     br.select_form(nr=0)
     rozwiazanie = br.form.find_control("src")
     rozwiazanie.value = str(data)
-    response = br.submit()
+    br.submit()
     if lang == "pl":
         print(f"[{OK}]Wysłano rozwiązanie.")
     else:
@@ -498,7 +496,7 @@ if __name__ == '__main__':
     br = mechanize.Browser()
 
     if len(args) == 1:
-        help("zero")
+        help_f("zero")
     elif args[1].startswith("-"):
         if args[1] == '--list' or args[1] == '-l' or args[1] == '--lista':
             open_tichy()
@@ -555,13 +553,13 @@ if __name__ == '__main__':
                 else:
                     print(p, end="")
         elif args[1] == '--help' or args[1] == '-h' or args[1] == '--pomoc':
-            help("zero")
+            help_f("zero")
         else:
-            help("zero")
+            help_f("zero")
 
     elif args[1] in ('course', 'kurs', 'c'):
         if len(args) == 2 or args[2] in ('--help', '-h', '--pomoc'):
-            help("course")
+            help_f("course")
         elif args[2] == '--list' or args[2] == '-l' or args[2] == '--lista':
             open_tichy()
             login()
@@ -592,11 +590,13 @@ if __name__ == '__main__':
                 print(f"[{OK}]Zapisano pomyślnie.")
             else:
                 print(f"[{OK}]Saved successfully.")
+        elif args[2] in ('--points', '-p', '--punkty'):
+            print("Not implemented yet")
         else:
-            help("course")
+            help_f("course")
     elif args[1] in ('exercise', 'zadanie', 'zad', 'e'):
         if len(args) == 2 or args[2] in ('--help', '-h', '--pomoc'):
-            help("exercise")
+            help_f("exercise")
         elif args[2] in ('--list', '-l', '--lista'):
             print('list')
         elif args[2] in ('--send', '-s', 'wyslij'):
@@ -626,4 +626,4 @@ if __name__ == '__main__':
                     nr_zad = input("\nExercise number: ")
             send_file(nr_zad, args[3])
         else:
-            help("exercise")
+            help_f("exercise")
