@@ -5,13 +5,13 @@
   * [Wymagania](#wymagania)
   * [Konfiguracja](#konfiguracja)
   * [Użycie:](#użycie)
-  * [Przykład:](#przykład)
+  * [Przykłady/Dokumentacja](#przykłady/dokumentacja)
   * [Instalacja Pythona (Windows)](#instalacja-pythona-windows)
   * [Konfiguracja CLion](#konfiguracja-clion)
 
 ## Co to quicktichy?
 
-**Quicktichy** to skrypt napisany w języku Python, który pozwala na wysyłanie zadań na **Tichy** (sprawdzarkę algorytmiczną UMCS) za pomocą konsoli. Zwraca on wynik testów po sprawdzeniu.
+**Quicktichy** to napisany przez [h-okon](https://github.com/h-okon) i rozbudowany przeze mnie skrypt w języku Python, który pozwala na wysyłanie zadań na **Tichy** (sprawdzarkę algorytmiczną UMCS) za pomocą konsoli. Zwraca on wynik testów po sprawdzeniu.
 
 ## Wymagania
    * Python 3.7 +
@@ -19,23 +19,31 @@
 
 ## Konfiguracja
 
-* W pliku **tichy.py** w linijce **10** zamieniamy link do kursu na sprawdzarce. W plikach znajduje się link do kursu **AiSD I 2020/2021**. Również zmieniamy pola **login** i **hasło** (linijki **21** i **22**) na swoje dane do sprawdzarki.
-```python
-kurs = "https://tichy.umcs.lublin.pl/course/2ae9322bea1944e59a218708cfa9a793/"
-username = 'login'
-passwd = 'haslo'
-```
+* Odpalając skrypt po raz pierwszy (nieważne jaką komendą) konsola sama poprowadzi cię przez wstępną konfigurację i wygeneruje odpowiedni plik konfiguracyjny w folderze ze skryptem.
+* Polecam wrzucać sobie skrypt do folderu każdego projektu z C/C+ i tam go sobie oddzielnie konfigurować.
+![tichy_first](images/tichy_first.gif?raw=true)
+
+* Nie zapomnij potem ustawić aktualnego kursu za pomocą komendy **tichy course -set** (użycie poniżej), poniewż domyślnie żaden kurs nie jest wybrany!
 
 ## Użycie:
-    python tichy.py <numer zadania> <rozwiązanie>
-## Przykład:
+    python tichy.py <komenda> [opcje] [<argumenty>]
+    tichy <komenda> [opcje] [<argumenty>]
+    
+* Druga (zalecana) opcja jest dostępna tylko na linuxie, bądź przy dobrym ustawieniu zmiennych środowiskowych systemu Windows oraz trzymaniu skryptu w folderze projektu.
+## Przykłady/Dokumentacja:
+    tichy 
+    tichy -h
+    tichy --help
+    tichy --pomoc
+    
+![tichy_help](images/tichy_help.gif?raw=true)
 
 ![przyklad](https://i.imgur.com/ZJZnuPO.png)
 
 
-## Instalacja Pythona (Windows)
-- Wchodzimy na stronę https://docs.conda.io/en/latest/miniconda.html
-- Pobieramy minicondę3.
+## Instalacja Pythona (Windows) 
+   - Wchodzimy na stronę https://docs.conda.io/en/latest/miniconda.html
+   - Pobieramy minicondę3.
 
 ![img_01](images/img_01.png?raw=true)
 
@@ -53,7 +61,7 @@ conda install -c omnia termcolor
 conda install -c anaconda beautifulsoup4
 pip install mechanize
 ```
-- Poprawność pobrania potrzebnych modułów można najszybciej sprawdzić próbując użyć skroptu poprzez komendę:
+- Poprawność pobrania potrzebnych modułów można najszybciej sprawdzić próbując użyć skryptu poprzez komendę:
 ```
 python path\tichy.py
 ```
@@ -62,6 +70,8 @@ python path\tichy.py
 Jeśli tak jak u mnie wyświetla się komunikat o błędzie użycia, a nie o brakujących modułach, to wszystko jest ok i nasz Python jest gotowy do uruchomienia skryptu. Możemy to przetestować podając w parametrach odpowiednie dane.
 
 ![img_05](images/img_05.png?raw=true)
+
+
 
 ## Konfiguracja CLion
 - Upewniamy się, że mamy zainstalowaną wtyczkę **Python Community Edition**. W tym celu otwieramy **File->Settings->Plugins->Installed** (ctrl+alt+S) i wyszukujemy **Python Community Edition**.
