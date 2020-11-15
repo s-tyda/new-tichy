@@ -1,7 +1,7 @@
-# quicktichy
+# new-tichy
 
-* [quicktichy](#quicktichy)
-  * [Co to quicktichy?](#co-to-quicktichy)
+* [new-tichy](#new-tichy)
+  * [Co to new-tichy?](#co-to-new-tichy)
   * [Wymagania](#wymagania)
   * [Konfiguracja](#konfiguracja)
   * [Użycie](#użycie)
