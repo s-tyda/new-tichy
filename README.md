@@ -6,6 +6,7 @@
   * [Konfiguracja](#konfiguracja)
   * [Użycie](#użycie)
   * [Ważniejsze przykłady](#ważniejsze-przykłady)
+  * [Przydatne poradniki](#przydatne-poradniki)
 
 ## Co to quicktichy?
 
@@ -29,9 +30,8 @@ Polecam wrzucać sobie skrypt do folderu każdego projektu z C/C+ i tam go sobie
     python tichy.py <komenda> [opcje] [<argumenty>]
     tichy <komenda> [opcje] [<argumenty>]
     
-Druga (zalecana) opcja jest dostępna tylko na linuxie, bądź przy dobrym ustawieniu zmiennych środowiskowych systemu Windows oraz trzymaniu skryptu w folderze projektu.
+Druga (zalecana) opcja jest dostępna tylko na linuxie, bądź przy dobrym [ustawieniu zmiennych środowiskowych systemu Windows](docs/python_environmental.md) oraz trzymaniu skryptu w folderze projektu.
 ## Ważniejsze przykłady:
-Żeby zobaczyć inne komendy użyj jednej z poniższych opcji, albo przejdź do [dokumentacji](docs/documentation.md).
 ```python
 #Wyświetla informacje o użyciu
 tichy 
@@ -61,3 +61,12 @@ tichy <exercise, e, zadanie, zad> --wyslij <path> [<nr]
 ```
 
 ![tichy_help](images/tichy_exercise_send.gif?raw=true)
+
+**Żeby zobaczyć inne komendy użyj jednej z poniższych opcji, albo przejdź do [dokumentacji](docs/documentation.md).**
+
+## Przydatne poradniki
+* [Instalacja Pythona na Windows](docs/python_installation.md)
+* [Konfiguracja zmiennych środowiskowych Pythona na Windows](docs/python_environmental.md)
+* [Konfiguracja skryptu w CLion](docs/clion_config.md)
+* [Konfiguracja skryptu w MS Visual Studio](docs/vs_config.md)
+* [Konfiguracja skryptu w MS Visual Studio Code](docs/vscode_config.md)
