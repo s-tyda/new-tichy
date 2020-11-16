@@ -35,7 +35,7 @@ def help_f(test):
             )
             print(
                 '   {:<56} {:<s}'.format(
-                    "-h, --help, --pomoc", "Wyświetla informacjie o użyciu"
+                    "-h, --help, --pomoc", "Wyświetla informacje o użyciu"
                 )
             )
             print(
@@ -576,11 +576,11 @@ if __name__ == '__main__':
     # Sprawdzanie istnienia pliku konfiguracyjnego
     if not os.path.exists("config.ini"):
         print(
-            "It semms it's your first time using tichy script. You have"
-            "to set your config to proceed.\n"
+            "It seems it's your first time using tichy script. You have"
+            " to set your config to proceed.\n"
             "Wygląda na to, że używasz skryptu tichy po raz"
-            "pierwszy. Musisz wprowadzić swoje dane logowania żeby"
-            "kontynuować.\n"
+            " pierwszy. Musisz wprowadzić swoje dane logowania, żeby"
+            " kontynuować.\n"
             "Choose your language. Wybierz język.\n"
             "[pl] polski\n[en] english"
         )
@@ -601,13 +601,13 @@ if __name__ == '__main__':
         f.write("language = " + lang)
         f.close()
         if lang == "pl":
-            print(f"[{OK}]Teraz możesz już  korzystać ze skryptu.")
+            print(f"[{OK}]Teraz możesz już korzystać ze skryptu.")
             print(
-                "Nie zapomnij ustawić ID kursu, za pomocą komendy 'tichy course --set'!"
+                "Nie zapomnij ustawić ID kursu za pomocą komendy 'tichy course --set'!"
             )
         else:
             print(f"[{OK}]Now you can proceed with running a script.")
-            print("Don't forgt to set course ID, using command 'tichy course --set'!")
+            print("Don't forget to set course ID, using command 'tichy course --set'!")
         sys.exit(0)
 
     # Odczytanie danych z konfiguracji
