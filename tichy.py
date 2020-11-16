@@ -262,8 +262,8 @@ def course_find(temp_course_id, is_print=False):
 def task_list():
     kursy_response = br.response().read()
     soup = BeautifulSoup(kursy_response, "html.parser")
-    kurs_body = soup.find("table", {"class": "table table-striped"})\
-                    .find('tbody')
+    kurs_body = soup.find("table", {"class": "table table-striped"}) \
+        .find('tbody')
     kurs_list = kurs_body.findAll('tr')
     if lang == "pl":
         print("[  ]Pobieranie listy zadań...")
@@ -277,6 +277,7 @@ def task_list():
         tds = tr.findAll('td')
         kurs = tds[1].get_text(strip=True)
         print('[' + tds[0].text + '] ' + kurs)
+
 
 # Testowanie z przykładowymi danymi
 def exercise_test(ex_number, plik):
@@ -315,8 +316,8 @@ def exercise_test(ex_number, plik):
     soup = BeautifulSoup(ex_response, "html.parser")
     ex_body = soup.findAll("div", {"class": "panel-body"})[1]
     paragraphs = ex_body.findAll('pre')
-    inputs=[]
-    outputs=[]
+    inputs = []
+    outputs = []
     for idx, par in enumerate(paragraphs):
         if int(idx) % 2 == 0:
             inputs.append(par.get_text(strip=True))
@@ -326,7 +327,7 @@ def exercise_test(ex_number, plik):
     # result = subprocess.run(['a.exe'], capture_output=True, text=True, input=inputs[0])
     for idx, inp in enumerate(inputs):
         result = subprocess.run(['a.exe'], capture_output=True, text=True, input=inp)
-        print("Przykładowe dane " + str(idx+1) + ": ", end="")
+        print("Przykładowe dane " + str(idx + 1) + ": ", end="")
         if "".join(result.stdout.split()) == "".join(outputs[idx].split()):
             print(colored("zaliczone", 'green', attrs=['bold']))
         else:
@@ -342,8 +343,8 @@ def send_file(ex_number, plik, results=None):
     found = False
     kursy_response = br.response().read()
     soup = BeautifulSoup(kursy_response, "html.parser")
-    kurs_body = soup.find("table", {"class": "table table-striped"})\
-                    .find('tbody')
+    kurs_body = soup.find("table", {"class": "table table-striped"}) \
+        .find('tbody')
     kurs_list = kurs_body.findAll('tr')
     for tr in kurs_list:
         tds = tr.findAll('td')
