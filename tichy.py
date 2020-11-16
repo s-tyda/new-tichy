@@ -449,7 +449,9 @@ def send_file(ex_number, plik):
 
     max_status_len = max(len(r) for r in results)
     print(f'ID | {"Result":<{max_status_len}} | {"Time (s)":<15} | Memory (kB)')
-    row_format = f'{{:>2}} | {{:<{max_status_len+13}}} | {{:<6s}} / {{:<6s}} | {{:>s}} / {{:>s}}'
+    row_format = (
+        f'{{:>2}} | {{:<{max_status_len+13}}} | {{:<6s}} / {{:<6s}} | {{:>s}} / {{:>s}}'
+    )
 
     for tr in soup.find(id='results_table').find('tbody').findAll('tr'):
         tds = tr.findAll('td')
@@ -495,14 +497,13 @@ if __name__ == '__main__':
         else:
             usr = input("Your username: ")
             psw = getpass.getpass(prompt="Your password: ")
-        f = open("config.ini", "x")
-        f = open("config.ini", "a")
-        f.write("[CONFIG]\n")
-        f.write("username = " + usr + '\n')
-        f.write("password = " + psw + '\n')
-        f.write("course_id = \n")
-        f.write("language = " + lang)
-        f.close()
+        with open("config.ini", "w") as f:
+            f.write("[CONFIG]\n")
+            f.write("username = " + usr + '\n')
+            f.write("password = " + psw + '\n')
+            f.write("course_id = \n")
+            f.write("language = " + lang)
+
         if lang == "pl":
             print(f"[{OK}]Teraz możesz już korzystać ze skryptu.")
             print(
