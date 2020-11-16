@@ -368,11 +368,9 @@ def exercise_test(ex_number, plik):
 
 
 # Wysyłanie pliku
-def send_file(ex_number, plik, results=None):
-    if results is None:
-        results = []
+def send_file(ex_number, plik):
     with open(plik, 'r') as file:
-        data = file.read().replace('\n', '\n  ')
+        data = file.read()
     found = False
     kursy_response = br.response().read()
     soup = BeautifulSoup(kursy_response, "html.parser")
@@ -444,6 +442,7 @@ def send_file(ex_number, plik, results=None):
     response = br.response().read()
     soup = BeautifulSoup(response, "html.parser")
     # print("ID | Result    | Time (s)        | Memory (kB)")
+    results = []
     for tr in soup.find(id='results_table').find('tbody').findAll('tr'):
         tds = tr.findAll('td')
         results.append(tds[1].text.strip())
