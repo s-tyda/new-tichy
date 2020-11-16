@@ -278,7 +278,7 @@ def task_list():
         kurs = tds[1].get_text(strip=True)
         print('[' + tds[0].text + '] ' + kurs)
 
-# Podglądanie treści zadania
+# Testowanie z przykładowymi danymi
 def exercise_test(ex_number, plik):
     found = False
     kursy_response = br.response().read()
@@ -326,7 +326,7 @@ def exercise_test(ex_number, plik):
     # result = subprocess.run(['a.exe'], capture_output=True, text=True, input=inputs[0])
     for idx, inp in enumerate(inputs):
         result = subprocess.run(['a.exe'], capture_output=True, text=True, input=inp)
-        print("Przykładowe dane " + str(idx+1) + ": ")
+        print("Przykładowe dane " + str(idx+1) + ": ", end="")
         if "".join(result.stdout.split()) == "".join(outputs[idx].split()):
             print(colored("zaliczone", 'green', attrs=['bold']))
         else:
