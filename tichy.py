@@ -361,7 +361,7 @@ def exercise_test(ex_number, plik):
     for idx, inp in enumerate(inputs):
         result = subprocess.run(['a.exe'], capture_output=True, text=True, input=inp)
         print("Przykładowe dane " + str(idx + 1) + ": ", end="")
-        if "".join(result.stdout.split()) == "".join(outputs[idx].split()):
+        if " ".join(result.stdout.split()) == " ".join(outputs[idx].split()):
             print(colored("zaliczone", 'green', attrs=['bold']))
         else:
             print(colored("niezaliczone", 'red', attrs=['bold']))
