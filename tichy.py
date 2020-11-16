@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import colorama
+import getpass
 import mechanize
 import time
 from bs4 import BeautifulSoup
@@ -587,10 +588,10 @@ if __name__ == '__main__':
         lang = input()
         if lang == "pl":
             usr = input("Twój login: ")
-            psw = input("Twoje hasło: ")
+            psw = getpass.getpass(prompt="Twoje hasło: ")
         else:
             usr = input("Your username: ")
-            psw = input("Your password: ")
+            psw = getpass.getpass(prompt="Your password: ")
         f = open("config.ini", "x")
         f = open("config.ini", "a")
         f.write("[CONFIG]\n")
