@@ -260,7 +260,6 @@ def course_list():
     kurs_body = soup.find("ul", {"class": "course-list"})
     kurs_list = kurs_body.findAll('li')
     # print (kurs_list[0].get_text(strip=True))
-    temp_course_id = 1
     if lang == "pl":
         print("[  ]Pobieranie listy kursów...")
         print(f"[{OK}]Pobrano pomyślnie.\n")
@@ -269,9 +268,8 @@ def course_list():
         print("[  ]Downloading course list...")
         print(f"[{OK}]Downloaded successfully.\n")
         print(colored("Available courses:", attrs=['bold']))
-    for li in kurs_list:
-        print('[' + str(temp_course_id) + '] ' + li.get_text(strip=True))
-        ++temp_course_id
+    for i, li in enumerate(kurs_list, start=1):
+        print(f'[{i}] ' + li.get_text(strip=True))
 
 
 # Zwracanie kursu o danym ID
@@ -286,10 +284,7 @@ def course_find(temp_course_id, is_print=False):
     else:
         print(colored("\nAktualnie wybrany kurs:", attrs=['bold']))
         print(
-            '['
-            + str(temp_course_id)
-            + '] '
-            + kurs_list[temp_course_id - 1].get_text(strip=True)
+            f'[{temp_course_id}] ' + kurs_list[temp_course_id - 1].get_text(strip=True)
         )
 
 
