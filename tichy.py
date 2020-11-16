@@ -448,88 +448,9 @@ def send_file(ex_number, plik, results=None):
         tds = tr.findAll('td')
         results.append(tds[1].text.strip())
 
-    longest = max(results, key=len)
-
-    if longest == "Naruszenie ochrony pamięci":
-        print(
-            "%2s | %-26s | %-15s | %s"
-            % (
-                "ID",
-                "Result",
-                "Time (s)",
-                "Memory (kB)",
-            )
-        )
-    elif longest == "Błąd wykonania":
-        print(
-            "%2s | %-14s | %-15s | %s"
-            % (
-                "ID",
-                "Result",
-                "Time (s)",
-                "Memory (kB)",
-            )
-        )
-    elif longest == "Niedozwolona instrukcja":
-        print(
-            "%2s | %-23s | %-15s | %s"
-            % (
-                "ID",
-                "Result",
-                "Time (s)",
-                "Memory (kB)",
-            )
-        )
-    elif longest == "Przekroczona pamięć":
-        print(
-            "%2s | %-19s | %-15s | %s"
-            % (
-                "ID",
-                "Result",
-                "Time (s)",
-                "Memory (kB)",
-            )
-        )
-    elif longest == "Zła odpowiedź":
-        print(
-            "%2s | %-13s | %-15s | %s"
-            % (
-                "ID",
-                "Result",
-                "Time (s)",
-                "Memory (kB)",
-            )
-        )
-    elif longest == "Zaliczone":
-        print(
-            "%2s | %-9s | %-15s | %s"
-            % (
-                "ID",
-                "Result",
-                "Time (s)",
-                "Memory (kB)",
-            )
-        )
-    elif longest == "Przekroczony czas":
-        print(
-            "%2s | %-17s | %-15s | %s"
-            % (
-                "ID",
-                "Result",
-                "Time (s)",
-                "Memory (kB)",
-            )
-        )
-    elif longest == "Błąd kompilacji":
-        print(
-            "%2s | %-15s | %-15s | %s"
-            % (
-                "ID",
-                "Result",
-                "Time (s)",
-                "Memory (kB)",
-            )
-        )
+    max_status_len = max(len(r) for r in results)
+    print(f'ID | {"Result":<{max_status_len}} | {"Time (s)":<15} | Memory (kB)')
+    row_format = f'{{:>2}} | {{:<{max_status_len+13}}} | {{:<6s}} / {{:<6s}} | {{:>s}} / {{:>s}}'
 
     for tr in soup.find(id='results_table').find('tbody').findAll('tr'):
         tds = tr.findAll('td')
@@ -537,23 +458,6 @@ def send_file(ex_number, plik, results=None):
             status = colored(tds[1].text.strip(), 'red', attrs=['bold'])
         else:
             status = colored(tds[1].text.strip(), 'green', attrs=['bold'])
-
-        if longest == "Niedozwolona instrukcja":
-            row_format = '{:>2} | {:<36} | {:<6s} / {:<6s} | {:>s} / {:>s}'
-        elif longest == "Naruszenie ochrony pamięci":
-            row_format = '{:>2} | {:<39} | {:<6s} / {:<6s} | {:>s} / {:>s}'
-        elif longest == "Błąd wykonania":
-            row_format = '{:>2} | {:<27} | {:<6s} / {:<6s} | {:>s} / {:>s}'
-        elif longest == "Przekroczona pamięć":
-            row_format = '{:>2} | {:<32} | {:<6s} / {:<6s} | {:>s} / {:>s}'
-        elif longest == "Zła odpowiedź":
-            row_format = '{:>2} | {:<26} | {:<6s} / {:<6s} | {:>s} / {:>s}'
-        elif longest == "Zaliczone":
-            row_format = '{:>2} | {:<22} | {:<6s} / {:<6s} | {:>s} / {:>s}'
-        elif longest == "Przekroczony czas":
-            row_format = '{:>2} | {:<30} | {:<6s} / {:<6s} | {:>s} / {:>s}'
-        elif longest == "Błąd kompilacji":
-            row_format = '{:>2} | {:<28} | {:<6s} / {:<6s} | {:>s} / {:>s}'
 
         print(
             row_format.format(
