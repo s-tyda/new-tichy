@@ -4,6 +4,7 @@ import time
 from bs4 import BeautifulSoup
 import sys
 import os.path
+import subprocess
 from termcolor import colored
 from configparser import ConfigParser
 
@@ -277,6 +278,60 @@ def task_list():
         kurs = tds[1].get_text(strip=True)
         print('[' + tds[0].text + '] ' + kurs)
 
+# Podglądanie treści zadania
+def exercise_test(ex_number, plik):
+    found = False
+    kursy_response = br.response().read()
+    soup = BeautifulSoup(kursy_response, "html.parser")
+    kurs_body = soup.find("table", {"class": "table table-striped"}) \
+        .find('tbody')
+    kurs_list = kurs_body.findAll('tr')
+    for tr in kurs_list:
+        tds = tr.findAll('td')
+        if str(ex_number) == tds[0].text:
+            found = True
+            el = tds[1].find('a')['href']
+            zadanie = 'https://tichy.umcs.lublin.pl' + el
+            zad_name = tds[1].get_text(strip=True)
+
+    if not found:
+        if lang == "pl":
+            print(colored(f"Nie znaleziono zadania nr {ex_number}", 'red',
+                          attrs=['bold']))
+        else:
+            print(colored(f"Cannot find exercise {ex_number}", 'red',
+                          attrs=['bold']))
+        exit(1)
+    if lang == "pl":
+        print("[  ]Otwieranie strony zadania " + zad_name + "...")
+    else:
+        print("[  ]Opening exercise " + zad_name + "...")
+    br.open(zadanie)
+    if lang == "pl":
+        print(f"[{OK}]Otworzono zadanie " + zad_name + ".")
+    else:
+        print(f"[{OK}]Successfully opened exercise " + zad_name + ".")
+    ex_response = br.response().read()
+    soup = BeautifulSoup(ex_response, "html.parser")
+    ex_body = soup.findAll("div", {"class": "panel-body"})[1]
+    paragraphs = ex_body.findAll('pre')
+    inputs=[]
+    outputs=[]
+    for idx, par in enumerate(paragraphs):
+        if int(idx) % 2 == 0:
+            inputs.append(par.get_text(strip=True))
+        else:
+            outputs.append(par.get_text(strip=True))
+    subprocess.run('g++ ' + plik)
+    # result = subprocess.run(['a.exe'], capture_output=True, text=True, input=inputs[0])
+    for idx, inp in enumerate(inputs):
+        result = subprocess.run(['a.exe'], capture_output=True, text=True, input=inp)
+        print("Przykładowe dane " + str(idx+1) + ": ")
+        if "".join(result.stdout.split()) == "".join(outputs[idx].split()):
+            print(colored("zaliczone", 'green', attrs=['bold']))
+        else:
+            print(colored("niezaliczone", 'red', attrs=['bold']))
+
 
 # Wysyłanie pliku
 def send_file(ex_number, plik, results=None):
@@ -296,7 +351,7 @@ def send_file(ex_number, plik, results=None):
             found = True
             el = tds[1].find('a')['href']
             zadanie = 'https://tichy.umcs.lublin.pl' + el
-            zad_name = tds[0].text
+            zad_name = tds[1].get_text(strip=True)
 
     if not found:
         if lang == "pl":
@@ -599,7 +654,7 @@ if __name__ == '__main__':
             help_f("exercise")
         elif args[2] in ('--list', '-l', '--lista'):
             print('list')
-        elif args[2] in ('--send', '-s', 'wyslij'):
+        elif args[2] in ('--send', '-s', '--wyslij'):
             if len(args) < 4 or len(args) > 5:
                 print("Error")
                 sys.exit(1)
@@ -625,5 +680,11 @@ if __name__ == '__main__':
                 else:
                     nr_zad = input("\nExercise number: ")
             send_file(nr_zad, args[3])
+        elif args[2] in ('--test', '-t'):
+            open_tichy()
+            login()
+            open_main_page()
+            open_course(int(course_id))
+            exercise_test(args[3], args[4])
         else:
             help_f("exercise")
