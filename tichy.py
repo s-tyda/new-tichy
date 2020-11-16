@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import colorama
 import mechanize
 import time
