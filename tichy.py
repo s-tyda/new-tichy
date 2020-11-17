@@ -27,6 +27,16 @@ def help_f(test):
                     "exercise, e, zadanie, zad [opcje] [<args>]", "Obsługa zadań"
                 )
             )
+            print(
+                '   {:<56} {:<s}'.format(
+                    "send, s, wyslij <plik> [<nr_zadania>]", "Wysyłanie zadań na sprawdzarkę"
+                )
+            )
+            print(
+                '   {:<56} {:<s}'.format(
+                    "test, t <plik> [<nr_zadania>]", "Testowanie zadań przykładowymi danymi"
+                )
+            )
             print("\nOpcje:")
             print(
                 '   {:<56} {:<s}'.format(
@@ -57,7 +67,7 @@ def help_f(test):
             )
         else:
             print('Usage: tichy <command> [options] [<args>]\n')
-            print("Commands:")
+            print("\nCommands:")
             print(
                 '   {:<56} {:<s}'.format(
                     "course, c, kurs [options] [<args>]", "Course handling"
@@ -66,6 +76,16 @@ def help_f(test):
             print(
                 '   {:<56} {:<s}'.format(
                     "exercise, e, zadanie, zad [options] [<args>]", "Exercise handling"
+                )
+            )
+            print(
+                '   {:<56} {:<s}'.format(
+                    "send, s, wyslij <path> [<nr>]", "Sending answer to tichy"
+                )
+            )
+            print(
+                '   {:<56} {:<s}'.format(
+                    "test, t <path> [<nr>]", "Validating file with example test"
                 )
             )
             print("\nOptions:")
@@ -100,7 +120,9 @@ def help_f(test):
     elif test == "course":
         if lang == "pl":
             print('Użycie: tichy <course, c, kurs> [opcje] [<args>]\n')
-            print("Opcje:")
+            print("Opis:")
+            print("Ta komenda jest odpowiedzialna za obsługę kursów.")
+            print("\nOpcje:")
             print(
                 '   {:<56} {:<s}'.format(
                     "-h, --help, --pomoc", "Wyświetla informacjie o użyciu"
@@ -124,7 +146,9 @@ def help_f(test):
             )
         else:
             print('Usage: tichy <course, c, kurs> [options] [<args>]\n')
-            print("Options:")
+            print("Description:")
+            print("This command is responsible for course handling.")
+            print("\nOptions:")
             print(
                 '   {:<56} {:<s}'.format(
                     "-h, --help, --pomoc", "Shows usage information"
@@ -149,8 +173,10 @@ def help_f(test):
         return 1
     elif test == "exercise":
         if lang == "pl":
-            print('Użycie: tichy <exercise, e , zadanie, zad> [opcje]' '[<args>]\n')
-            print("Opcje:")
+            print('Użycie: tichy <exercise, e , zadanie, zad> [opcje] [<args>]\n')
+            print("Opis:")
+            print("Ta komenda jest odpowiedzialna za obsługę zadań.")
+            print("\Opcje:")
             print(
                 '   {:<56} {:<s}'.format(
                     "-h, --help, --pomoc", "Wyświetla informacjie o użyciu"
@@ -165,13 +191,15 @@ def help_f(test):
             print(
                 '   {:<56} {:<s}'.format(
                     "-s, --send, --wyslij <plik> [<nr_zadania>]",
-                    "Wysyła rozwiązanie plik na sprawdzarkę i wyświetla wynik",
+                    "Wysyła rozwiązanie o relatywnej ścieżce <plik> na sprawdzarkę i wyświetla wynik",
                 )
             )
             print('   {:<56} {:<s}'.format("", "Numer zadania jest opcjonalny"))
         else:
-            print('Usage: tichy <exercise, e , zadanie, zad> [options]' '[<args>]\n')
-            print("Options:")
+            print('Usage: tichy <exercise, e , zadanie, zad> [options] [<args>]\n')
+            print("Description:")
+            print("This command is responsible for exercise handling.")
+            print("\nOptions:")
             print(
                 '   {:<56} {:<s}'.format(
                     "-h, --help, --pomoc", "Shows usage information"
@@ -185,12 +213,41 @@ def help_f(test):
             print(
                 '   {:<56} {:<s}'.format(
                     "-s, --send, --wyslij <path> [<nr>]",
-                    "Sends answer to tichy and shows results",
+                    "Sends answer on relative path <path> to tichy and shows results",
                 )
             )
-            print('   {:<56} {:<s}'.format("", "Exercise number is optional"))
+            print('   {:<56} {:<s}'.format("", "Exercise number <nr> is optional"))
+            print(
+                '   {:<56} {:<s}'.format(
+                    "-t, --test <path> [<nr>]",
+                    "Validate file on relative path <path> with example test of exercise <nr>",
+                )
+            )
+            print('   {:<56} {:<s}'.format("", "Exercise number <nr> is optional"))
         return 1
     elif test == "send":
+        if lang == "pl":
+            print('Użycie: tichy <send, s, wyslij> <plik> [<nr_zadania>]\n')
+            print("Opis:")
+            print("Wysyła rozwiązanie o relatywnej ścieżce <path> na sprawdzarkę i wyświetla wynik.")
+            print("Numer zadania <nr_zadania> jest opcjonalny.")
+        else:
+            print('Usage: tichy <send, s, wyslij> <path> [<nr>]\n')
+            print("Description:")
+            print("Sends answer on relative path <path> to tichy and shows results.")
+            print("Exercise number <nr> is optional.")
+        return 1
+    elif test == "test":
+        if lang == "pl":
+            print('Użycie: tichy <test, t> <plik> [<nr_zadania>]\n')
+            print("Opis:")
+            print("Testuje plik o relatywnej ścieżce <plik> przykładowymi danymi zadania <nr_zadania>.")
+            print("Numer zadania <nr_zadania> jest opcjonalny.")
+        else:
+            print('Usage: tichy <test, t> <path> [<nr>]\n')
+            print("Description:")
+            print("Validate file on relative path <path> with example test of exercise <nr>.")
+            print("Exercise number <nr> is optional.")
         return 1
 
 
