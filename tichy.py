@@ -450,8 +450,8 @@ def task_list():
         print('[' + tds[0].text + '] ' + kurs)
 
 
-# Testowanie z przykładowymi danymi
-def exercise_test(ex_number, plik):
+# Zwracanie nazwy zadania oraz jego linku
+def get_exercise(ex_number):
     found = False
     kursy_response = br.response().read()
     soup = BeautifulSoup(kursy_response, "html.parser")
@@ -473,15 +473,27 @@ def exercise_test(ex_number, plik):
         else:
             print(colored(f"Cannot find exercise {ex_number}", 'red', attrs=['bold']))
         exit(1)
+
+    return zadanie, zad_name
+
+
+# Otwieranie strony zadania
+def open_exercise(exercise):
     if lang == "pl":
-        print("[  ]Otwieranie strony zadania " + zad_name + "...")
+        print("[  ]Otwieranie strony zadania " + exercise[1] + "...")
     else:
-        print("[  ]Opening exercise " + zad_name + "...")
-    br.open(zadanie)
+        print("[  ]Opening exercise " + exercise[1] + "...")
+    br.open(exercise[0])
     if lang == "pl":
-        print(f"[{OK}]Otworzono zadanie " + zad_name + ".")
+        print(f"[{OK}]Otworzono zadanie " + exercise[1] + ".")
     else:
-        print(f"[{OK}]Successfully opened exercise " + zad_name + ".")
+        print(f"[{OK}]Successfully opened exercise " + exercise[1] + ".")
+
+
+# Testowanie z przykładowymi danymi
+def exercise_test(ex_number, plik):
+    exercise = get_exercise(ex_number)
+    open_exercise(exercise)
     ex_response = br.response().read()
     soup = BeautifulSoup(ex_response, "html.parser")
     ex_body = soup.findAll("div", {"class": "panel-body"})[1]
@@ -494,7 +506,6 @@ def exercise_test(ex_number, plik):
         else:
             outputs.append(par.get_text(strip=True))
     subprocess.run('g++ ' + plik)
-    # result = subprocess.run(['a.exe'], capture_output=True, text=True, input=inputs[0])
     for idx, inp in enumerate(inputs):
         result = subprocess.run(['a.exe'], capture_output=True, text=True, input=inp)
         print("Przykładowe dane " + str(idx + 1) + ": ", end="")
@@ -506,62 +517,32 @@ def exercise_test(ex_number, plik):
 
 # Wysyłanie pliku
 def send_file(ex_number, plik):
-    with open(plik, 'r') as file:
-        data = file.read()
-    found = False
-    kursy_response = br.response().read()
-    soup = BeautifulSoup(kursy_response, "html.parser")
-    kurs_body = soup.find("table", {"class": "table table-striped"}).find('tbody')
-    kurs_list = kurs_body.findAll('tr')
-    for tr in kurs_list:
-        tds = tr.findAll('td')
-        if str(ex_number) == tds[0].text:
-            found = True
-            el = tds[1].find('a')['href']
-            zadanie = 'https://tichy.umcs.lublin.pl' + el
-            zad_name = tds[1].get_text(strip=True)
-
-    if not found:
-        if lang == "pl":
-            print(
-                colored(f"Nie znaleziono zadania nr {ex_number}", 'red', attrs=['bold'])
-            )
-        else:
-            print(colored(f"Cannot find exercise {ex_number}", 'red', attrs=['bold']))
-        exit(1)
-
-    if lang == "pl":
-        print("[  ]Otwieranie strony zadania " + zad_name + "...")
-    else:
-        print("[  ]Opening exercise " + zad_name + "...")
-    br.open(zadanie)
-    if lang == "pl":
-        print(f"[{OK}]Otworzono zadanie " + zad_name + ".")
-    else:
-        print(f"[{OK}]Successfully opened exercise " + zad_name + ".")
+    exercise = get_exercise(ex_number)
+    open_exercise(exercise)
     req = br.click_link(text='Wyślij rozwiązanie')
     if lang == "pl":
-        print("[  ]Wysyłanie rozwiązania zadania " + zad_name + "...")
+        print("[  ]Wysyłanie rozwiązania zadania " + exercise[1] + "...")
     else:
-        print("[  ]Sending answer of exercise " + zad_name + "...")
+        print("[  ]Sending answer of exercise " + exercise[1] + "...")
     br.open(req)
-    # print(" " + br.title())
     br.select_form(nr=0)
-    rozwiazanie = br.form.find_control("src")
-    rozwiazanie.value = str(data)
+    with open(plik, 'r') as file:
+        data = file.read()
+    answer = br.form.find_control("src")
+    answer.value = str(data)
     br.submit()
     if lang == "pl":
         print(f"[{OK}]Wysłano rozwiązanie.")
     else:
         print(f"[{OK}]Sent.")
     link_to_exercise = br.geturl()
-    sprawdzany = True
+    validating = True
     if lang == "pl":
         print("[  ]Oczekiwanie na wyniki...")
     else:
         print("[  ]Waiting for results...")
-    while sprawdzany:
-        sprawdzany = False
+    while validating:
+        validating = False
         time.sleep(0.5)
         br.open(link_to_exercise)
         response = br.response().read()
@@ -569,7 +550,7 @@ def send_file(ex_number, plik):
         for tr in soup.find(id='results_table').find('tbody').findAll('tr'):
             tds = tr.findAll('td')
             if tds[1].text.strip() == 'Sprawdzany':
-                sprawdzany = True
+                validating = True
     if lang == "pl":
         print(f"[{OK}]Otrzymano wyniki.\n")
     else:
@@ -578,7 +559,6 @@ def send_file(ex_number, plik):
     br.open(link_to_exercise)
     response = br.response().read()
     soup = BeautifulSoup(response, "html.parser")
-    # print("ID | Result    | Time (s)        | Memory (kB)")
     results = []
     for tr in soup.find(id='results_table').find('tbody').findAll('tr'):
         tds = tr.findAll('td')
