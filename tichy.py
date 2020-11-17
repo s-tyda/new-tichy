@@ -176,7 +176,7 @@ def help_f(test):
             print('Użycie: tichy <exercise, e , zadanie, zad> [opcje] [<args>]\n')
             print("Opis:")
             print("Ta komenda jest odpowiedzialna za obsługę zadań.")
-            print("\Opcje:")
+            print("\nOpcje:")
             print(
                 '   {:<56} {:<s}'.format(
                     "-h, --help, --pomoc", "Wyświetla informacjie o użyciu"
@@ -377,10 +377,10 @@ def get_new_username():
         return args[2]
     else:
         if lang == "pl":
-            usr = input("Nowy login: ")
+            new_username = input("Nowy login: ")
         else:
-            usr = input("New username: ")
-        return usr
+            new_username = input("New username: ")
+        return new_username
 
 
 # Pobieranie od użytkownika nowego hasła
@@ -389,10 +389,10 @@ def get_new_password():
         return args[2]
     else:
         if lang == "pl":
-            passw = getpass.getpass(prompt="Nowe hasło: ")
+            new_password = getpass.getpass(prompt="Nowe hasło: ")
         else:
-            passw = getpass.getpass(prompt="New password: ")
-        return passw
+            new_password = getpass.getpass(prompt="New password: ")
+        return new_password
 
 
 # Wyświetlanie listy kursów
