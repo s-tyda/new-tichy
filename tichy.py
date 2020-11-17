@@ -609,8 +609,7 @@ if __name__ == '__main__':
     # Włączanie przeglądarki
     br = mechanize.Browser()
 
-    # if len(args) == 1:
-    #     help_f("zero")
+    # Rozpatrywanie argumentów skryptu
     check_for_args(2, 5, "zero")
     if args[1].startswith("-"):
         if args[1] in ('--list', '-l', '--lista'):
@@ -646,6 +645,7 @@ if __name__ == '__main__':
             else:
                 print(f"[{OK}]Saved successfully.")
         elif args[1] == '--config' or args[1] == '-c' or args[1] == '--dane':
+            check_for_args(2, 2, "zero")
             if lang == "pl":
                 print(colored("Zawartość pliku konfiguracji:", attrs=['bold']))
             else:
@@ -656,8 +656,6 @@ if __name__ == '__main__':
                     print(colored(p, 'red', attrs=['bold']), end="")
                 else:
                     print(p, end="")
-        # elif args[1] == '--help' or args[1] == '-h' or args[1] == '--pomoc':
-        #     help_f("zero")
         else:
             help_f("zero")
 
