@@ -97,7 +97,7 @@ def help_f(test):
                 )
             )
         return 1
-    if test == "course":
+    elif test == "course":
         if lang == "pl":
             print('Użycie: tichy <course, c, kurs> [opcje] [<args>]\n')
             print("Opcje:")
@@ -147,7 +147,7 @@ def help_f(test):
                 )
             )
         return 1
-    if test == "exercise":
+    elif test == "exercise":
         if lang == "pl":
             print('Użycie: tichy <exercise, e , zadanie, zad> [opcje]' '[<args>]\n')
             print("Opcje:")
@@ -190,7 +190,7 @@ def help_f(test):
             )
             print('   {:<56} {:<s}'.format("", "Exercise number is optional"))
         return 1
-    if test == "send":
+    elif test == "send":
         return 1
 
 
@@ -251,6 +251,48 @@ def open_course(temp_course_id):
 # Otworzenie strony głównej
 def open_main_page():
     br.open("https://tichy.umcs.lublin.pl/course/")
+
+
+# Sprawdzanie liczby argumentów
+def check_for_args(min_number, max_number, help_string):
+    if len(args) < min_number:
+        if lang == "pl":
+            print(colored("Za mało argumentów.\n", 'red', attrs=['bold']))
+        else:
+            print(colored("Too few arguments.\n", 'red', attrs=['bold']))
+        help_f(help_string)
+        sys.exit(1)
+    elif len(args) > max_number:
+        if lang == "pl":
+            print(colored("Za dużo argumentów.\n", 'red', attrs=['bold']))
+        else:
+            print(colored("Too many arguments.\n", 'red', attrs=['bold']))
+        help_f(help_string)
+        sys.exit(1)
+
+
+# Obsługa błędów wysyłania pliku
+def check_for_file(help_string):
+    if not os.path.exists(args[3]):
+        if lang == "pl":
+            print(colored("Nie znaleziono pliku.\n", 'red', attrs=['bold']))
+        else:
+            print(colored("File not found.\n", 'red', attrs=['bold']))
+        help_f(help_string)
+        sys.exit(1)
+
+
+# Pobieranie od użytkownika numeru zadania
+def get_exercise_number():
+    if len(args) == 5:
+        return args[4]
+    else:
+        task_list()
+        if lang == "pl":
+            exercise_number = input("\nNumer zadania: ")
+        else:
+            exercise_number = input("\nExercise number: ")
+    return exercise_number
 
 
 # Wyświetlanie listy kursów
@@ -471,6 +513,7 @@ if __name__ == '__main__':
     colorama.init(strip=False)
     global OK
     OK = colored("OK", 'green', attrs=['bold'])
+    global args
     args = sys.argv
 
     # Sprawdzanie istnienia pliku konfiguracyjnego
@@ -624,39 +667,26 @@ if __name__ == '__main__':
             help_f("course")
     elif args[1] in ('exercise', 'zadanie', 'zad', 'e'):
         if len(args) == 2 or args[2] in ('--help', '-h', '--pomoc'):
-            help_f("exercise")
+            help_f('exercise')
         elif args[2] in ('--list', '-l', '--lista'):
             print('list')
         elif args[2] in ('--send', '-s', '--wyslij'):
-            if len(args) < 4 or len(args) > 5:
-                print("Error")
-                sys.exit(1)
-
+            check_for_args(4, 5, "exercise")
+            check_for_file("exercise")
             open_tichy()
             login()
             open_main_page()
             open_course(int(course_id))
-            if not os.path.exists(args[3]):
-                if lang == "pl":
-                    print(colored("Nie znaleziono pliku.", 'red', attrs=['bold']))
-                else:
-                    print(colored("File not found.", 'red', attrs=['bold']))
-                sys.exit(1)
-
-            if len(args) == 5:
-                nr_zad = args[4]
-            else:
-                task_list()
-                if lang == "pl":
-                    nr_zad = input("\nNumer zadania: ")
-                else:
-                    nr_zad = input("\nExercise number: ")
-            send_file(nr_zad, args[3])
+            ex_nr = get_exercise_number()
+            send_file(ex_nr, args[3])
         elif args[2] in ('--test', '-t'):
+            check_for_args(4, 5, "exercise")
+            check_for_file("exercise")
             open_tichy()
             login()
             open_main_page()
             open_course(int(course_id))
-            exercise_test(args[3], args[4])
+            ex_nr = get_exercise_number()
+            exercise_test(ex_nr, args[3])
         else:
             help_f("exercise")
