@@ -255,7 +255,10 @@ def open_main_page():
 
 # Sprawdzanie liczby argumentów
 def check_for_args(min_number, max_number, help_string):
-    if len(args) < min_number:
+    if len(args) == (min_number - 1) or args[min_number - 1] in ('--help', '-h', '--pomoc'):
+        help_f(help_string)
+        sys.exit(1)
+    elif len(args) < min_number:
         if lang == "pl":
             print(colored("Za mało argumentów.\n", 'red', attrs=['bold']))
         else:
@@ -272,8 +275,8 @@ def check_for_args(min_number, max_number, help_string):
 
 
 # Obsługa błędów wysyłania pliku
-def check_for_file(help_string):
-    if not os.path.exists(args[3]):
+def check_for_file(arg_nr, help_string):
+    if not os.path.exists(args[arg_nr]):
         if lang == "pl":
             print(colored("Nie znaleziono pliku.\n", 'red', attrs=['bold']))
         else:
@@ -292,7 +295,47 @@ def get_exercise_number():
             exercise_number = input("\nNumer zadania: ")
         else:
             exercise_number = input("\nExercise number: ")
-    return exercise_number
+        return exercise_number
+
+
+# Pobieranie od użytkownika numeru kursu
+def get_new_id():
+    if len(args) == 4:
+        return args[3]
+    else:
+        open_tichy()
+        login()
+        open_main_page()
+        course_list()
+        if lang == "pl":
+            new_id = input("\nNowe ID kursu: ")
+        else:
+            new_id = input("\nNew course ID: ")
+        return new_id
+
+
+# Pobieranie od użytkownika nowej nazwy użytkownika
+def get_new_username():
+    if len(args) == 3:
+        return args[2]
+    else:
+        if lang == "pl":
+            usr = input("Nowy login: ")
+        else:
+            usr = input("New username: ")
+        return usr
+
+
+# Pobieranie od użytkownika nowego hasła
+def get_new_password():
+    if len(args) == 3:
+        return args[2]
+    else:
+        if lang == "pl":
+            passw = getpass.getpass(prompt="Nowe hasło: ")
+        else:
+            passw = getpass.getpass(prompt="New password: ")
+        return passw
 
 
 # Wyświetlanie listy kursów
@@ -566,23 +609,19 @@ if __name__ == '__main__':
     # Włączanie przeglądarki
     br = mechanize.Browser()
 
-    if len(args) == 1:
-        help_f("zero")
-    elif args[1].startswith("-"):
-        if args[1] == '--list' or args[1] == '-l' or args[1] == '--lista':
+    # if len(args) == 1:
+    #     help_f("zero")
+    check_for_args(2, 5, "zero")
+    if args[1].startswith("-"):
+        if args[1] in ('--list', '-l', '--lista'):
+            check_for_args(2, 2, "zero")
             open_tichy()
             login()
             open_main_page()
             course_list()
         elif args[1] in ('--username', '-u', '--login'):
-            if len(args) == 2:
-                if lang == "pl":
-                    usr = input("Nowy login: ")
-                else:
-                    usr = input("New username: ")
-            else:
-                usr = args[2]
-            userinfo["username"] = usr
+            check_for_args(2, 3, "zero")
+            userinfo["username"] = get_new_username()
             if lang == "pl":
                 print("[  ]Zapisywanie nowej nazwy użytkownika...")
             else:
@@ -594,14 +633,8 @@ if __name__ == '__main__':
             else:
                 print(f"[{OK}]Saved successfully")
         elif args[1] in ('--password', '-p', '--haslo'):
-            if len(args) == 2:
-                if lang == "pl":
-                    passw = input("Nowe hasło: ")
-                else:
-                    passw = input("New password: ")
-            else:
-                passw = args[2]
-            userinfo["password"] = passw
+            check_for_args(2, 3, "zero")
+            userinfo["password"] = get_new_password()
             if lang == "pl":
                 print("[  ]Zapisywanie nowego hasła...")
             else:
@@ -623,34 +656,29 @@ if __name__ == '__main__':
                     print(colored(p, 'red', attrs=['bold']), end="")
                 else:
                     print(p, end="")
-        elif args[1] == '--help' or args[1] == '-h' or args[1] == '--pomoc':
-            help_f("zero")
+        # elif args[1] == '--help' or args[1] == '-h' or args[1] == '--pomoc':
+        #     help_f("zero")
         else:
             help_f("zero")
 
     elif args[1] in ('course', 'kurs', 'c'):
-        if len(args) == 2 or args[2] in ('--help', '-h', '--pomoc'):
-            help_f("course")
-        elif args[2] == '--list' or args[2] == '-l' or args[2] == '--lista':
+        check_for_args(3, 4, "course")
+        if args[2] in ('--list', '-l', '--lista'):
+            check_for_args(3, 3, "course")
             open_tichy()
             login()
             open_main_page()
             open_course(int(course_id))
             task_list()
-        elif args[2] == '--view' or args[2] == '-v' or args[2] == '--zobacz':
+        elif args[2] in ('--view', '-v', '--zobacz'):
+            check_for_args(3, 3, "course")
             open_tichy()
             login()
             open_main_page()
             course_find(int(course_id), True)
         elif args[2] == '--set' or args[2] == '-s' or args[2] == '--ustaw':
-            if len(args) == 3:
-                if lang == "pl":
-                    new_id = input("Nowe ID kursu: ")
-                else:
-                    new_id = input("New course ID: ")
-            else:
-                new_id = args[3]
-            userinfo["course_id"] = new_id
+            check_for_args(3, 4, "course")
+            userinfo["course_id"] = get_new_id()
             if lang == "pl":
                 print("[  ]Zapisywanie nowego ID kursu...")
             else:
@@ -666,13 +694,13 @@ if __name__ == '__main__':
         else:
             help_f("course")
     elif args[1] in ('exercise', 'zadanie', 'zad', 'e'):
-        if len(args) == 2 or args[2] in ('--help', '-h', '--pomoc'):
-            help_f('exercise')
-        elif args[2] in ('--list', '-l', '--lista'):
+        check_for_args(3, 5, "exercise")
+        if args[2] in ('--list', '-l', '--lista'):
+            check_for_args(3, 3, "exercise")
             print('list')
         elif args[2] in ('--send', '-s', '--wyslij'):
             check_for_args(4, 5, "exercise")
-            check_for_file("exercise")
+            check_for_file(3, "exercise")
             open_tichy()
             login()
             open_main_page()
@@ -681,7 +709,7 @@ if __name__ == '__main__':
             send_file(ex_nr, args[3])
         elif args[2] in ('--test', '-t'):
             check_for_args(4, 5, "exercise")
-            check_for_file("exercise")
+            check_for_file(3, "exercise")
             open_tichy()
             login()
             open_main_page()
@@ -690,3 +718,21 @@ if __name__ == '__main__':
             exercise_test(ex_nr, args[3])
         else:
             help_f("exercise")
+    elif args[1] in ('s', 'send', 'wyslij'):
+        check_for_args(3, 4, "send")
+        check_for_file(2, "send")
+        open_tichy()
+        login()
+        open_main_page()
+        open_course(int(course_id))
+        ex_nr = get_exercise_number()
+        send_file(ex_nr, args[2])
+    elif args[1] in ('t', 'test'):
+        check_for_args(3, 4, "test")
+        check_for_file(2, "test")
+        open_tichy()
+        login()
+        open_main_page()
+        open_course(int(course_id))
+        ex_nr = get_exercise_number()
+        exercise_test(ex_nr, args[2])
