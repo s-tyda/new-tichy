@@ -614,6 +614,7 @@ def file_decrypt(key, file_path):
     with open(file_path, 'wb') as file:
         file.write(decrypted)
 
+
 if __name__ == '__main__':
     colorama.init(strip=False)
     global OK
@@ -784,7 +785,7 @@ if __name__ == '__main__':
             login()
             open_main_page()
             open_course(int(course_id))
-            ex_nr = get_exercise_number()
+            ex_nr = get_exercise_number(5)
             send_file(ex_nr, args[3])
         elif args[2] in ('--test', '-t'):
             check_for_args(4, 5, "exercise")
@@ -813,5 +814,5 @@ if __name__ == '__main__':
         login()
         open_main_page()
         open_course(int(course_id))
-        ex_nr = get_exercise_number()
+        ex_nr = get_exercise_number(4)
         exercise_test(ex_nr, args[2])

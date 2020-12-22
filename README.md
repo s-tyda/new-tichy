@@ -13,16 +13,24 @@
 **New-tichy** to napisany przez [h-okon](https://github.com/h-okon) i rozbudowany oraz odnowiony przeze mnie skrypt w języku Python, który pozwala na wysyłanie zadań na **Tichy** (sprawdzarkę algorytmiczną UMCS) za pomocą konsoli. Zwraca on wynik testów po sprawdzeniu.
 
 ## Wymagania
-   * Python 3.7 +
-   * Moduły: re, mechanize, time, bs4, sys
+Skrypt (.py):
+* Python 3.8 +
+* Moduły: mechanize, bs4, cryptography, colorama, termcolor
+
+Windows (.exe):
+* brak
+* (opcjonalne i zalecane) [Konfiguracja zmiennych środowiskowych pliku .exe na Windows](docs/windows_environmental.md)
+  (dzięki czemu można odpalać skrypt w każdym miejscu za pomocą konsoli Windowsa)
 
 ## Instalacja
 [Link do pobrania najnowszej wersji](https://github.com/s-tyda/new-tichy/releases/tag/v.0.8.0)
 ## Konfiguracja
 
-Odpalając skrypt po raz pierwszy (nieważne jaką komendą) konsola sama poprowadzi cię przez wstępną konfigurację i wygeneruje odpowiedni plik konfiguracyjny w folderze ze skryptem.
+Odpalając skrypt po raz pierwszy (nieważne jaką komendą) konsola sama poprowadzi cię przez wstępną konfigurację i wygeneruje odpowiedni plik konfiguracyjny w katalog głównym.
+Plik konfiguracyjny jest tworzony globalnie i znajduje się w folderze: "<katalog główny>\.config\new-tichy"
+Cały plik konfiguracyjny jest zaszyfrowany, a plik z kluczem szyfrującym znajduje się również w powyższym folderze.
 
-Polecam wrzucać sobie skrypt do folderu każdego projektu z C/C+ i tam go sobie oddzielnie konfigurować.
+Nie ma aktualnie żadnej potrzeby dodawać dodatkowych plików do folderów z projektem.
 
 ![tichy_first](images/tichy_first.gif?raw=true)
 
@@ -34,7 +42,7 @@ python tichy.py <komenda> [opcje] [<argumenty>]
 tichy <komenda> [opcje] [<argumenty>]
 ```
     
-Druga (zalecana) opcja jest dostępna tylko na linuxie, bądź przy dobrym [ustawieniu zmiennych środowiskowych systemu Windows](docs/python_environmental.md) oraz trzymaniu skryptu w folderze projektu.
+Druga (zalecana) opcja jest dostępna tylko na linuxie, bądź przy dobrym [ustawieniu zmiennych środowiskowych systemu Windows](docs/python_environmental.md).
 ## Ważniejsze przykłady:
 ```console
 #Wyświetla informacje o użyciu
@@ -70,6 +78,7 @@ tichy <exercise, e, zadanie, zad> --wyslij <path> [<nr]
 
 ## Przydatne poradniki
 * [Instalacja Pythona na Windows](docs/python_installation.md)
+* [Konfiguracja zmiennych środowiskowych pliku .exe na Windows](docs/windows_environmental.md)
 * [Konfiguracja zmiennych środowiskowych Pythona na Windows](docs/python_environmental.md)
 * [Konfiguracja skryptu w CLion](docs/clion_config.md)
 * [Konfiguracja skryptu w MS Visual Studio](docs/vs_config.md)
