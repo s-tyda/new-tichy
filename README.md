@@ -23,7 +23,7 @@ Windows (.exe):
   (dzięki czemu można odpalać skrypt w każdym miejscu za pomocą konsoli Windowsa)
 
 ## Instalacja
-[Link do pobrania najnowszej wersji](https://github.com/s-tyda/new-tichy/releases/tag/v.0.8.1)
+[Link do pobrania najnowszej wersji](https://github.com/s-tyda/new-tichy/releases/tag/v.0.8.2)
 ## Konfiguracja
 
 Odpalając skrypt po raz pierwszy (nieważne jaką komendą) konsola sama poprowadzi cię przez wstępną konfigurację i wygeneruje odpowiedni plik konfiguracyjny w katalog głównym.
