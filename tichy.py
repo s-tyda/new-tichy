@@ -343,9 +343,9 @@ def check_for_file(arg_nr, help_string):
 
 
 # Pobieranie od użytkownika numeru zadania
-def get_exercise_number():
-    if len(args) == 5:
-        return args[4]
+def get_exercise_number(expected):
+    if len(args) == expected:
+        return args[expected - 1]
     else:
         task_list()
         if lang == "pl":
@@ -749,7 +749,7 @@ if __name__ == '__main__':
             login()
             open_main_page()
             open_course(int(course_id))
-            ex_nr = get_exercise_number()
+            ex_nr = get_exercise_number(5)
             exercise_test(ex_nr, args[3])
         else:
             help_f("exercise")
@@ -760,7 +760,7 @@ if __name__ == '__main__':
         login()
         open_main_page()
         open_course(int(course_id))
-        ex_nr = get_exercise_number()
+        ex_nr = get_exercise_number(4)
         send_file(ex_nr, args[2])
     elif args[1] in ('t', 'test'):
         check_for_args(3, 4, "test")
