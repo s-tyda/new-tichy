@@ -644,6 +644,7 @@ if __name__ == '__main__':
         else:
             usr = input("Your username: ")
             psw = getpass.getpass(prompt="Your password: ")
+        os.makedirs(user_config_dir, exist_ok=True)
         key = Fernet.generate_key()
         with open(key_path, 'wb') as mykey:
             mykey.write(key)
