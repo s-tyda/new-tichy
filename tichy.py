@@ -10,6 +10,8 @@ import os.path
 import subprocess
 from termcolor import colored
 from configparser import ConfigParser
+from pathlib import Path
+from cryptography.fernet import Fernet
 
 
 def help_f(test):
@@ -589,6 +591,29 @@ def send_file(ex_number, plik):
         )
 
 
+def file_encrypt(key, file_path):
+    f = Fernet(key)
+
+    with open(file_path, 'rb') as file:
+        original = file.read()
+
+    encrypted = f.encrypt(original)
+
+    with open(file_path, 'wb') as file:
+        file.write(encrypted)
+
+
+def file_decrypt(key, file_path):
+    f = Fernet(key)
+
+    with open(file_path, 'rb') as file:
+        encrypted = file.read()
+
+    decrypted = f.decrypt(encrypted)
+
+    with open(file_path, 'wb') as file:
+        file.write(decrypted)
+
 if __name__ == '__main__':
     colorama.init(strip=False)
     global OK
@@ -596,8 +621,12 @@ if __name__ == '__main__':
     global args
     args = sys.argv
 
+    user_config_dir = str(Path.home()) + "/.config/new-tichy"
+    user_config = user_config_dir + "/config.ini"
+    key_path = user_config_dir + "/.key"
     # Sprawdzanie istnienia pliku konfiguracyjnego
-    if not os.path.exists("config.ini"):
+    # if not os.path.exists("config.ini"):
+    if not os.path.exists(user_config):
         print(
             "It seems it's your first time using tichy script. You have"
             " to set your config to proceed.\n"
@@ -607,7 +636,6 @@ if __name__ == '__main__':
             "Choose your language. Wybierz język.\n"
             "[pl] polski\n[en] english"
         )
-
         lang = input()
         if lang == "pl":
             usr = input("Twój login: ")
@@ -615,12 +643,16 @@ if __name__ == '__main__':
         else:
             usr = input("Your username: ")
             psw = getpass.getpass(prompt="Your password: ")
-        with open("config.ini", "w") as f:
+        key = Fernet.generate_key()
+        with open(key_path, 'wb') as mykey:
+            mykey.write(key)
+        with open(user_config, "w") as f:
             f.write("[CONFIG]\n")
             f.write("username = " + usr + '\n')
             f.write("password = " + psw + '\n')
             f.write("course_id = \n")
             f.write("language = " + lang)
+        file_encrypt(key, user_config)
 
         if lang == "pl":
             print(f"[{OK}]Teraz możesz już korzystać ze skryptu.")
@@ -633,8 +665,12 @@ if __name__ == '__main__':
         sys.exit(0)
 
     # Odczytanie danych z konfiguracji
+    with open(key_path, 'rb') as mykey:
+        key = mykey.read()
+    file_decrypt(key, user_config)
     config_object = ConfigParser()
-    config_object.read("config.ini")
+    config_object.read(user_config)
+    file_encrypt(key, user_config)
 
     # Dane
     userinfo = config_object["CONFIG"]
@@ -662,8 +698,10 @@ if __name__ == '__main__':
                 print("[  ]Zapisywanie nowej nazwy użytkownika...")
             else:
                 print("[  ]Saving new username...")
-            with open('config.ini', 'w') as conf:
+            file_decrypt(key, user_config)
+            with open(user_config, 'w') as conf:
                 config_object.write(conf)
+            file_encrypt(key, user_config)
             if lang == "pl":
                 print(f"[{OK}]Zapisano pomyślnie")
             else:
@@ -675,8 +713,10 @@ if __name__ == '__main__':
                 print("[  ]Zapisywanie nowego hasła...")
             else:
                 print("[  ]Saving new password...")
-            with open('config.ini', 'w') as conf:
+            file_decrypt(key, user_config)
+            with open(user_config, 'w') as conf:
                 config_object.write(conf)
+            file_encrypt(key, user_config)
             if lang == "pl":
                 print(f"[{OK}]Zapisano pomyślnie.")
             else:
@@ -687,12 +727,14 @@ if __name__ == '__main__':
                 print(colored("Zawartość pliku konfiguracji:", attrs=['bold']))
             else:
                 print(colored("Contents of config file:", attrs=['bold']))
-            f = open('config.ini', 'r')
+            file_decrypt(key, user_config)
+            f = open(user_config, 'r')
             for p in f:
                 if p.startswith('[') or p.endswith(']'):
                     print(colored(p, 'red', attrs=['bold']), end="")
                 else:
                     print(p, end="")
+            file_encrypt(key, user_config)
         else:
             help_f("zero")
 
@@ -718,8 +760,10 @@ if __name__ == '__main__':
                 print("[  ]Zapisywanie nowego ID kursu...")
             else:
                 print("[  ]Saving new course ID...")
-            with open('config.ini', 'w') as conf:
+            file_decrypt(key, user_config)
+            with open(user_config, 'w') as conf:
                 config_object.write(conf)
+            file_encrypt(key, user_config)
             if lang == "pl":
                 print(f"[{OK}]Zapisano pomyślnie.")
             else:
