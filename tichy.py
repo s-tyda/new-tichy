@@ -530,6 +530,12 @@ def send_file(ex_number, plik):
     br.select_form(nr=0)
     with open(plik, 'r') as file:
         data = file.read()
+    if data == "":
+        if lang == "pl":
+            print(colored(f"Nie wysłano, plik jest pusty", 'red', attrs=['bold']))
+        else:
+            print(colored(f"Failed to sent, file is empty", 'red', attrs=['bold']))
+        return
     answer = br.form.find_control("src")
     answer.value = str(data)
     br.submit()
